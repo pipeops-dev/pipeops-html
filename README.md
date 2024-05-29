@@ -1,7 +1,7 @@
 # PipeOps-HTML-Starterkit 
 
 ### Get Started
-Firstly you need to clone the project 
+Firstly, you need to clone the project. 
 
 ```bash
 $ git clone <project>
