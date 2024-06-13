@@ -209,7 +209,7 @@ const location = useLocation();
               Sign Up
             </Button> */}
             <Button variant={BUTTON_VARIANT} sx={secondRegister} w={"auto"}>
-              Sign In
+              Demo
             </Button>
           </Flex>
         </Flex>
