@@ -33,10 +33,7 @@ import Construction from "./pages/Construction";
 import InstitutionHome from "./pages/institution/InstitutionHome";
 import ProtectedRoute from "./layouts/ProtectedRoute";
 import LecturerCode from "./features/lecturer/LecturerCode";
-import EditAttendance from "./features/attendance/EditAttendance";
-import NewAttendance from "./features/attendance/newAttendance";
-import AttendanceList from "./features/attendance/attendanceList";
-import LecturerList from "./features/lecturer/lecturerList";
+
 import StudentPinPage from "./features/student/StudentPinPage";
 import StudentLogin from "./Login/StudentLogin";
 import StudentSuccess from "./features/student/StudentSuccess";
@@ -110,17 +107,8 @@ const router = createBrowserRouter(
       <Route path="*" element={<NotFound />} />
       <Route path="construction" element={<Construction />} />
 
-      <Route path="attendance">
-        <Route index element={<AttendanceList />} />
-        <Route path="new" element={<NewAttendance />} />
-        <Route path=":id" element={<EditAttendance />} />
-      </Route>
-      <Route path="list" element={<LecturerList />}>
-        {" "}
-      </Route>
-      <Route path="studentList" element={<StudentList />}>
-        {" "}
-      </Route>
+     
+      
       <Route path="student/login" element={<StudentLogin />}></Route>
       <Route path="lecturer/login" element={<LecturerLogin />}></Route>
       <Route path="pin/:id" element={<StudentPinPage />}>
