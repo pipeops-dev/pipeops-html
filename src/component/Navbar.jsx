@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import logo from "../images/logo.png";
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import {Divide as Hamburger} from "hamburger-react";
+import { Divide as Hamburger } from "hamburger-react";
 
 export default function Navbar() {
   const componentButton = {
@@ -47,8 +47,7 @@ export default function Navbar() {
     }
   };
 
-  
-const location = useLocation();
+  const location = useLocation();
   useEffect(() => {
     window.addEventListener("scroll", changeBg);
   }, []);
@@ -64,7 +63,6 @@ const location = useLocation();
   useEffect(() => {
     setToggled(false);
   }, [location]);
- 
 
   return (
     <div>
@@ -144,7 +142,7 @@ const location = useLocation();
           ml={{ base: "50px", md: "0px", lg: "30px", xl: "100px" }}
           px={{ base: "30px", md: "30px", lg: "40px", xl: "40px" }}
         >
-          <NavLink to={"/login"}>Sign in</NavLink>
+          <NavLink to={"/"}>Demo</NavLink>
         </Button>
         <Box
           display={{ base: "flex", md: "flex", lg: "none", xl: "none" }}
@@ -154,7 +152,7 @@ const location = useLocation();
             rounded
             direction="right"
             duration={0.5}
-            toggled={toggled} 
+            toggled={toggled}
             toggle={setToggled}
           />
         </Box>
@@ -205,12 +203,11 @@ const location = useLocation();
                 PRICING
               </Button>
             </NavLink>
-            {/* <Button sx={componentButton} mb={"30px"} w={"20%"}>
-              Sign Up
-            </Button> */}
+            <NavLink to={"/"}>
             <Button variant={BUTTON_VARIANT} sx={secondRegister} w={"auto"}>
               Demo
             </Button>
+            </NavLink>
           </Flex>
         </Flex>
       </Flex>
