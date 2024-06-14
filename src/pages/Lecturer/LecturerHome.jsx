@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react"
 import { v4 as uuidv4 } from "uuid"
 import { useEffect, useState } from "react"
-import { useClipboard } from '@chakra-ui/react';
+import { useClipboard, useToast } from '@chakra-ui/react';
 import {useParams, useNavigate } from "react-router-dom"
 import { color } from "framer-motion"
 import { useGetAttendanceTabQuery } from "../../features/attendanceTab/lecturerAttendanceTabApiSlice"
@@ -42,6 +42,7 @@ export default function LecturerHome() {
   const navigate = useNavigate()
   const [lecturerId, setLecturerId] = useState(id)
   const { onCopy } = useClipboard();
+  const toast = useToast()
   const {
     data: attendanceTabs,
     isLoading,
@@ -133,7 +134,14 @@ export default function LecturerHome() {
                     <IconButton
                   onClick={() => {
                     onCopy(course.attendanceCode)
-                    alert(`You have copied ${course.attendanceCode} attendance code`)
+                    toast({
+                      position: "top-right",
+                      title: "Attendance Code Copied",
+                      description: `The attendance code ${course.attendanceCode} has been copied to your clipboard. Do well to send it to your students.`, 
+                      status: "success",
+                      duration: 10000,
+                      isClosable: true,
+                    });
                   }}
                   variant={"ghost"}
                   size={"lg"}
