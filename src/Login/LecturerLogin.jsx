@@ -86,6 +86,7 @@ export default function LecturerLogin() {
         setPassword("");
         navigate(`/lecturer/${id}`);
         toast({
+          position: "top",
           title: "Goodie!",
           description: "You have successfully logged in",
           status: "success",

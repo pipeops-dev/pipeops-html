@@ -128,6 +128,7 @@ export default function Lecturer() {
           //navigate(localStorage.getItem('attendanceExist') === 'true' ? `/code/${id}/home` : `/code/${id}`);
 
         toast({
+          position: "top",
           title: "Goodie!",
           description: "Account created successfully",
           status: "success",

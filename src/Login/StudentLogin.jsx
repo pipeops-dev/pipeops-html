@@ -106,6 +106,7 @@ export default function StudentLogin() {
         }
 
         toast({
+          position: "top",
           title: "Auuchh!",
           description: errMsg,
           status: "error",
