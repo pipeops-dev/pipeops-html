@@ -1,4 +1,8 @@
 "use client";
+
+import { db } from '/firebase-config';
+import { collection, addDoc } from 'firebase/firestore';
+
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -563,9 +567,26 @@ export default function MultiStep() {
     setStep((prev) => prev - 1);
   };
 
-  const handleFinalSubmit = (data) => {
+  const handleFinalSubmit = async (data) => {
     const finalData = { ...formData, ...data };
-    console.log(finalData);
+  
+    try {
+      const docRef = await addDoc(collection(db, "hospitals"), {
+        hospitalName: finalData.hospitalName,
+        email: finalData.email,
+        hospitalLocation: finalData.hospitalLocation,
+        phone: finalData.phone,
+        color: finalData.color,
+        logo: finalData.logo ? finalData.logo[0].name : "", // Store file name or URL if uploaded
+        createdAt: new Date(),
+      });
+  
+      console.log("Document written with ID: ", docRef.id);
+      alert("Hospital registered successfully!");
+    } catch (e) {
+      console.error("Error adding document: ", e);
+      alert("Error registering hospital. Please try again.");
+    }
   };
 
   return (
