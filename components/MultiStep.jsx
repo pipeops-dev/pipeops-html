@@ -573,18 +573,6 @@ export default function MultiStep() {
   const handleFinalSubmit = async (data) => {
     const finalData = { ...formData, ...data };
 
-    createUserWithEmailAndPassword(auth, finalData.email, finalData.password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log("User Created succesfully");
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      console.log("Error Creating User:", errorCode, errorMessage)
-    });
-
     try {
       const docRef = await addDoc(collection(db, "hospitals"), {
         hospitalName: finalData.hospitalName,
@@ -598,9 +586,22 @@ export default function MultiStep() {
       console.log("Document written with ID: ", docRef.id);
       alert("Hospital registered successfully!");
 
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        finalData.email,
+        finalData.password
+      );
+      const user = userCredential.user;
+      console.log("User Created successfully:", user);
+
     } catch (e) {
       console.error("Error adding document: ", e);
       alert("Error registering hospital. Please try again.");
+
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error("Error Creating User:", errorCode, errorMessage);
+
     }
   };
 
