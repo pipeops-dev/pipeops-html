@@ -110,7 +110,6 @@ import {
                     <HStack>
                     
                     <IconButton
-                      onClick={() => handleCardClick(id)}
                       variant={"ghost"}
                       icon={course.Open ? <MdLockOpen color="green" /> : <MdLockOutline color='red' /> }
                       size={"lg"}
