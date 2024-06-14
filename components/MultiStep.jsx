@@ -1,7 +1,8 @@
 "use client";
 
-import { db } from '/firebase-config';
-import { collection, addDoc } from 'firebase/firestore';
+import { db, auth } from "/firebase-config";
+import { collection, addDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import { useForm, FormProvider, useFormContext } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -286,7 +287,6 @@ const Step2 = ({ onNext, onBack, defaultValues }) => {
   );
 };
 
-
 const Step3 = ({ onBack, onSubmit, defaultValues }) => {
   const methods = useForm({
     resolver: yupResolver(step3Schema),
@@ -400,8 +400,6 @@ const Step3 = ({ onBack, onSubmit, defaultValues }) => {
   );
 };
 
-
-
 const Step4 = ({ formData, onBack, onSubmit }) => {
   const methods = useForm({
     resolver: yupResolver(agreementSchema),
@@ -437,7 +435,13 @@ const Step4 = ({ formData, onBack, onSubmit }) => {
           </p>
           <p>
             <strong>Color:</strong>{" "}
-            <span style={{ color: formData.color }}>{formData.color} <span className="w-8 h-4 inline-block" style={{ backgroundColor: formData.color }}></span> </span>
+            <span style={{ color: formData.color }}>
+              {formData.color}{" "}
+              <span
+                className="w-8 h-4 inline-block"
+                style={{ backgroundColor: formData.color }}
+              ></span>{" "}
+            </span>
           </p>
           <div>
             <strong>Logo:</strong>
@@ -553,7 +557,6 @@ const Step4 = ({ formData, onBack, onSubmit }) => {
   );
 };
 
-
 export default function MultiStep() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({});
@@ -569,7 +572,19 @@ export default function MultiStep() {
 
   const handleFinalSubmit = async (data) => {
     const finalData = { ...formData, ...data };
-  
+
+    createUserWithEmailAndPassword(auth, finalData.email, finalData.password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log("User Created succesfully");
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+
+      console.log("Error Creating User:", errorCode, errorMessage)
+    });
+
     try {
       const docRef = await addDoc(collection(db, "hospitals"), {
         hospitalName: finalData.hospitalName,
@@ -580,9 +595,9 @@ export default function MultiStep() {
         logo: finalData.logo ? finalData.logo[0].name : "", // Store file name or URL if uploaded
         createdAt: new Date(),
       });
-  
       console.log("Document written with ID: ", docRef.id);
       alert("Hospital registered successfully!");
+
     } catch (e) {
       console.error("Error adding document: ", e);
       alert("Error registering hospital. Please try again.");
@@ -593,31 +608,79 @@ export default function MultiStep() {
     <div className="w-full lg:h-[620px] bg-white lg:rounded-3xl lg:p-4 flex">
       <div className="w-1/3 h-full bg-blue-1 rounded-2xl p-12 hidden lg:block">
         <div className="flex mb-6">
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-xl mr-4 bg-white ${step === 1 ? 'text-blue-1' : ''}`}>01</div>
+          <div
+            className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-xl mr-4 bg-white ${
+              step === 1 ? "text-blue-1" : ""
+            }`}
+          >
+            01
+          </div>
           <div className="flex flex-col">
             <span className="text-sm text-white">Step 1</span>
-            <h4 className={`text-white text-lg ${step === 1 ? 'font-semibold' : ''}`}>Basic Information</h4>
+            <h4
+              className={`text-white text-lg ${
+                step === 1 ? "font-semibold" : ""
+              }`}
+            >
+              Basic Information
+            </h4>
           </div>
         </div>
         <div className="flex mb-6">
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-xl mr-4 bg-white ${step === 2 ? 'text-blue-1' : ''}`}>02</div>
+          <div
+            className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-xl mr-4 bg-white ${
+              step === 2 ? "text-blue-1" : ""
+            }`}
+          >
+            02
+          </div>
           <div className="flex flex-col">
             <span className="text-sm text-white">Step 2</span>
-            <h4 className={`text-white text-lg ${step === 2 ? 'font-semibold' : ''}`}>Contact Information</h4>
+            <h4
+              className={`text-white text-lg ${
+                step === 2 ? "font-semibold" : ""
+              }`}
+            >
+              Contact Information
+            </h4>
           </div>
         </div>
         <div className="flex mb-6">
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-xl mr-4 bg-white ${step === 3 ? 'text-blue-1' : ''}`}>03</div>
+          <div
+            className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-xl mr-4 bg-white ${
+              step === 3 ? "text-blue-1" : ""
+            }`}
+          >
+            03
+          </div>
           <div className="flex flex-col">
             <span className="text-sm text-white">Step 3</span>
-            <h4 className={`text-white text-lg ${step === 3 ? 'font-semibold' : ''}`}>Branding</h4>
+            <h4
+              className={`text-white text-lg ${
+                step === 3 ? "font-semibold" : ""
+              }`}
+            >
+              Branding
+            </h4>
           </div>
         </div>
         <div className="flex mb-6">
-          <div className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-xl mr-4 bg-white ${step === 4 ? 'text-blue-1' : ''}`}>04</div>
+          <div
+            className={`w-12 h-12 rounded-full flex items-center justify-center font-semibold text-xl mr-4 bg-white ${
+              step === 4 ? "text-blue-1" : ""
+            }`}
+          >
+            04
+          </div>
           <div className="flex flex-col">
             <span className="text-sm text-white">Step 4</span>
-            <h4 className={`text-white text-lg ${step === 4 ? 'font-semibold' : ''}`}>Verification and Agreement</h4>
+            <h4
+              className={`text-white text-lg ${
+                step === 4 ? "font-semibold" : ""
+              }`}
+            >
+              Verification and Agreement
+            </h4>
           </div>
         </div>
       </div>
