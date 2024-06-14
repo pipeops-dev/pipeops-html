@@ -44,6 +44,7 @@ import { selectCurrentToken as selectLecturerToken } from "./features/lecturerAu
 import PersistLecturerLogin from "./Login/PersistLecturerLogin";
 import PersistStudentLogin from "./Login/PersistStudentLogin";
 import StudentHome from "./pages/student/StudentHome";
+import Demo from "./pages/Demo";
 
 
 const router = createBrowserRouter(
@@ -106,7 +107,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="*" element={<NotFound />} />
       <Route path="construction" element={<Construction />} />
-
+        <Route path="demo" element={<Demo />} />
      
       
       <Route path="student/login" element={<StudentLogin />}></Route>

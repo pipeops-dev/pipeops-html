@@ -142,7 +142,7 @@ export default function Navbar() {
           ml={{ base: "50px", md: "0px", lg: "30px", xl: "100px" }}
           px={{ base: "30px", md: "30px", lg: "40px", xl: "40px" }}
         >
-          <NavLink to={"/"}>Demo</NavLink>
+          <NavLink to={"/demo"}>Demo</NavLink>
         </Button>
         <Box
           display={{ base: "flex", md: "flex", lg: "none", xl: "none" }}
@@ -203,7 +203,7 @@ export default function Navbar() {
                 PRICING
               </Button>
             </NavLink>
-            <NavLink to={"/"}>
+            <NavLink to={"/demo"}>
             <Button variant={BUTTON_VARIANT} sx={secondRegister} w={"auto"}>
               Demo
             </Button>
