@@ -51,6 +51,8 @@ export default function LecturerHome() {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
+
+  const [toggleOpenAttendanceTab, {isSuccess}] = useToggleOpenAttendanceTabMutation()
   useEffect(() => {
     if (!isLoading && (!attendanceTabs || attendanceTabs.ids.length === 0)) {
       navigate(`/lecturer/${lecturerId}/new`);
@@ -60,8 +62,13 @@ export default function LecturerHome() {
     document.body.classList.add("bg-color")
   }, [])
   
-  const handleCardClick = (id) => {
-    navigate(`/lecturer/${lecturerId}/${id}`)
+  const handleCardClick = async (id) => {
+    console.log(id)
+    try {
+     await toggleOpenAttendanceTab({id})
+    } catch (error) {
+      console.log(error)
+    }
   }
  
   return (
