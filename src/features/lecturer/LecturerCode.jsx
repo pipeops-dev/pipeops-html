@@ -70,7 +70,6 @@ export default function LecturerCode() {
   };
   useEffect(() => {
     if (isOpen) {
-      // If the modal is open, blur any focused element
       document.activeElement.blur();
     }
   }, [isOpen]);
