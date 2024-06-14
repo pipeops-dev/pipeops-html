@@ -62,7 +62,7 @@ export default function LecturerLayout() {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
-
+  console.log(lecturer)
   const {
     data: attendanceTabs,
     isLoading,

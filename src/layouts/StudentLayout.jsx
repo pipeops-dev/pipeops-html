@@ -36,26 +36,23 @@ import {
 } from "react-icons/md"
 import { useEffect, useState, useContext } from "react"
 import logo from "../images/logo.png"
+import { useGetStudentByIdQuery } from "../features/studentAuth/studentAuthApiSlice"
 import { useSendLogoutMutation } from "../features/studentAuth/studentAuthApiSlice"
-import { useGetStudentByIdQuery } from "../features/studentAuth/studentAuthApiSlice";
 import { useUpdateAttendanceTabMutation } from "../features/attendanceTab/studentAttendanceApiSlice";
 import { useNavigate, useParams } from "react-router-dom"
 import { AddIcon, BellIcon, SearchIcon } from "@chakra-ui/icons"
 export default function StudentLayout() {
   const { id } = useParams()
   const navigate = useNavigate()
-  useEffect(() => {
-    document.body.classList.add("bg-color")
-  }, [])
-  const [display, setDisplay] = useState("none")
+  
   const { data: student } = useGetStudentByIdQuery(id, {
     pollingInterval: 15000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
+ 
   console.log(student)  
   const [sendLogout, {
-    isLoading,
     isSuccess,
     isError,
     error
@@ -64,6 +61,11 @@ export default function StudentLayout() {
 useEffect(() => {
     if (isSuccess) navigate('/')
 }, [isSuccess, navigate])
+
+useEffect(() => {
+  document.body.classList.add("bg-color")
+}, [])
+const [display, setDisplay] = useState("none")
 
   return (
     <div>

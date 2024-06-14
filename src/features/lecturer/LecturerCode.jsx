@@ -8,6 +8,14 @@ import {
   Text,
   Center,
   Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -21,6 +29,7 @@ export default function LecturerCode() {
   const [validCode, setValidCode] = useState("");
 
   const regex = /^[a-zA-Z0-9-]*$/;
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     if (regex.test(universityCode)) {
@@ -43,6 +52,10 @@ export default function LecturerCode() {
     setUniversityCode(event.target.value);
   };
 
+  const handleInputFocus = () => {
+    onOpen()
+  }
+
   const canSave = Boolean(validCode);
 
   const handleSubmit = async (e) => {
@@ -53,6 +66,7 @@ export default function LecturerCode() {
       } catch (error) {}
     }
   };
+
   return (
     <div>
       <Center h="100vh" mt={"-6em"}>
@@ -67,6 +81,7 @@ export default function LecturerCode() {
               value={universityCode}
               onChange={handleInputChange}
               autoComplete="off"
+              onFocus={handleInputFocus}
             />
           </FormControl>
           <Button

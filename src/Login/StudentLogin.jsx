@@ -81,6 +81,8 @@ export default function StudentLogin() {
           password,
         }).unwrap();
         dispatch(setCredentials({ accessToken }));
+        console.log(id);
+        console.log(accessToken);
 
         setEmail("");
         setPassword("");

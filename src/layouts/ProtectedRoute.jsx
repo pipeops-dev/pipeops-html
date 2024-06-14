@@ -9,6 +9,7 @@ const ProtectedRoute = ({ roles, selector, requiredRole, children }) => {
   const location = useLocation();
   const token = useSelector(selector)
   let userRole = null;
+  let email = null;
   const [loading, setLoading] = useState(true);
   
 useEffect(() => {
@@ -34,10 +35,11 @@ useEffect(() => {
     const decodedToken = jwtDecode(token);
     userRole = decodedToken.role;
     
+    
   }
 
   if (!token || !roles.includes(userRole) || userRole !== requiredRole) {
-    console.log('not connected')
+    
     return <Navigate to="/" state={{ from: location }} replace />
   } else {
     return children;
