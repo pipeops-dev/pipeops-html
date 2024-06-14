@@ -28,6 +28,7 @@ export default function LecturerCode() {
   const { id } = useParams();
   const [universityCode, setUniversityCode] = useState("");
   const [validCode, setValidCode] = useState("");
+  const [shouldOpenModal, setShouldOpenModal] = useState(true);
 
   const regex = /^[a-zA-Z0-9-]*$/;
  
@@ -66,7 +67,14 @@ export default function LecturerCode() {
     }
   };
   const handleInputFocus = () => {
-    onOpen();
+    if (shouldOpenModal) {
+      onOpen();
+    }
+  };
+
+  const handleModalOpen = () => {
+    setShouldOpenModal(!shouldOpenModal);
+    onClose()
   };
   useEffect(() => {
     if (isOpen) {
@@ -111,8 +119,8 @@ export default function LecturerCode() {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+            <Button colorScheme="blue" mr={3} onClick={handleModalOpen}>
+              No thanks
             </Button>
           </ModalFooter>
         </ModalContent>
