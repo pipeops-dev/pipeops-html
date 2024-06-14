@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react"
 import { v4 as uuidv4 } from "uuid"
 import { useEffect, useState } from "react"
-import copy from "copy-to-clipboard"
+import { useClipboard } from '@chakra-ui/react';
 import {useParams, useNavigate } from "react-router-dom"
 import { color } from "framer-motion"
 import { useGetAttendanceTabQuery } from "../../features/attendanceTab/lecturerAttendanceTabApiSlice"
@@ -41,7 +41,7 @@ export default function LecturerHome() {
   const {id} = useParams()
   const navigate = useNavigate()
   const [lecturerId, setLecturerId] = useState(id)
-
+  const { onCopy } = useClipboard();
   const {
     data: attendanceTabs,
     isLoading,
@@ -132,8 +132,8 @@ export default function LecturerHome() {
 
                     <IconButton
                   onClick={() => {
-                    copy(course.attendanceCode)
-                    alert(`You have copied ${courseCode} attendance code`)
+                    onCopy(course.attendanceCode)
+                    alert(`You have copied ${course.attendanceCode} attendance code`)
                   }}
                   variant={"ghost"}
                   size={"lg"}
