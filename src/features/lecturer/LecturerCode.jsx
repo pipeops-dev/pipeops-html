@@ -15,12 +15,13 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUpdateCodeMutation } from "./lecturersApiSlice";
 export default function LecturerCode() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [updateCode, { isLoading, isSuccess, isError, error }] =
     useUpdateCodeMutation();
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function LecturerCode() {
   const [validCode, setValidCode] = useState("");
 
   const regex = /^[a-zA-Z0-9-]*$/;
-  const { isOpen, onOpen, onClose } = useDisclosure();
+ 
 
   useEffect(() => {
     if (regex.test(universityCode)) {
@@ -52,9 +53,7 @@ export default function LecturerCode() {
     setUniversityCode(event.target.value);
   };
 
-  const handleInputFocus = () => {
-    onOpen()
-  }
+  
 
   const canSave = Boolean(validCode);
 
@@ -66,6 +65,15 @@ export default function LecturerCode() {
       } catch (error) {}
     }
   };
+  const handleInputFocus = () => {
+    onOpen();
+  };
+  useEffect(() => {
+    if (isOpen) {
+      // If the modal is open, blur any focused element
+      document.activeElement.blur();
+    }
+  }, [isOpen]);
 
   return (
     <div>
@@ -94,6 +102,22 @@ export default function LecturerCode() {
           </Button>
         </Flex>
       </Center>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>For Trial</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <p>Use FyyTRR-1ED-GWH2 as the institution code</p>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }
