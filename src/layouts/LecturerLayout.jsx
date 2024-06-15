@@ -57,12 +57,13 @@ export default function LecturerLayout() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [lecturerId, setLecturerId] = useState(id);
+  const [courseCode, setCourseCode] = useState("");
+  const [courseName, setCourseName] = useState("");
   const { data: lecturer } = useGetLecturerByIdQuery(id, {
     pollingInterval: 15000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
-  console.log(lecturer)
   const {
     data: attendanceTabs,
     isLoading,
@@ -80,7 +81,6 @@ export default function LecturerLayout() {
   const [sendLogout, { isSuccess, error }] = useSendLogoutMutation();
 
   const handleSubmit = async (e) => {
-    console.log("submitted", lecturerId, courseCode, courseName);
     if (courseCode && courseName) {
       try {
         await addNewAttendanceTab({ courseCode, courseName, lecturerId });
@@ -88,6 +88,7 @@ export default function LecturerLayout() {
         setCourseName("");
         localStorage.setItem("attendanceExist", "true");
         navigate(`/lecturer/${id}`);
+        onCreateClose();
       } catch (error) {
         console.log(error);
       }
@@ -110,8 +111,7 @@ export default function LecturerLayout() {
   } = useDisclosure();
 
   const initialRef = useRef(null);
-  const [courseCode, setCourseCode] = useState("");
-  const [courseName, setCourseName] = useState("");
+  
 
   return (
     <div>

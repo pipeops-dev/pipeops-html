@@ -19,7 +19,7 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState} from "react";
 import nodata from "../../images/no-data.png";
 import { color } from "framer-motion";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -29,6 +29,8 @@ export default function LecturerMain() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [lecturerId, setLecturerId] = useState(id);
+  const [courseCode, setCourseCode] = useState("");
+  const [courseName, setCourseName] = useState("");
   useEffect(() => {
     document.body.classList.add("bg-color");
   }, []);
@@ -49,6 +51,7 @@ export default function LecturerMain() {
         await addNewAttendanceTab({ courseCode, courseName, lecturerId });
         setCourseCode("");
         setCourseName("");
+        onCreateClose();
         navigate(`/lecturer/${id}`);
       } catch (error) {
         console.log(error);
