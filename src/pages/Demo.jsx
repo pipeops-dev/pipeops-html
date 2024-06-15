@@ -84,6 +84,10 @@ export default function Demo() {
             <FormLabel>Email</FormLabel>
             <Input type="email" placeholder="Email" />
           </FormControl>
+          <FormControl>
+            <FormLabel>Password</FormLabel>
+            <Input type="password" placeholder="Password" />
+          </FormControl>
         </Container>
       </Flex></>
   )
