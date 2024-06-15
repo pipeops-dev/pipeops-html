@@ -22,8 +22,13 @@ import {
 import { useEffect } from "react";
 import nodata from "../../images/no-data.png";
 import { color } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useAddNewAttendanceTabMutation } from "../../features/attendanceTab/lecturerAttendanceTabApiSlice";
 export default function LecturerMain() {
+  const [addNewAttendanceTab] = useAddNewAttendanceTabMutation();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [lecturerId, setLecturerId] = useState(id);
   useEffect(() => {
     document.body.classList.add("bg-color");
   }, []);
@@ -37,6 +42,19 @@ export default function LecturerMain() {
     onOpen: onJoinOpen,
     onClose: onJoinClose,
   } = useDisclosure();
+  const handleSubmit = async (e) => {
+    console.log("submitted", lecturerId, courseCode, courseName);
+    if (courseCode && courseName) {
+      try {
+        await addNewAttendanceTab({ courseCode, courseName, lecturerId });
+        setCourseCode("");
+        setCourseName("");
+        navigate(`/lecturer/${id}`);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <div>
       <Modal isOpen={isJoinOpen} onClose={onJoinClose}>
@@ -76,15 +94,25 @@ export default function LecturerMain() {
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Course code</FormLabel>
-              <Input placeholder="BME 201" />
+              <Input placeholder="BME 201"  onChange={(e) => {
+                  setCourseCode(e.target.value.toUpperCase());
+                }} />
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Course title</FormLabel>
-              <Input placeholder="General anatomy" />
+              <Input placeholder="General anatomy" 
+              onChange={(e) => {
+                setCourseName(e.target.value.toUpperCase());
+              }}
+              />
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button colorScheme="blue" mr={3}
+            onClick={() => {
+              handleSubmit();
+            }}
+            >
               Create
             </Button>
             <Button onClick={onCreateClose}>Cancel</Button>
