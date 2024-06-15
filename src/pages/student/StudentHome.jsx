@@ -77,31 +77,14 @@ export default function StudentHome() {
 
                 return (
                   <div key={index}>
-                    <Card variant={"elevated"}>
+                    <Card variant={"elevated"}  backgroundColor={course.open ? "white" : "#D3D3D3"} >
                       <CardHeader>
                         <Flex>
                           <Heading fontSize={"2rem"} pl={"10px"} mt={"15px"}>
                             {course.courseCode}
                           </Heading>
                           <Spacer />
-                          <Menu>
-                            <MenuButton>
-                              {" "}
-                              <IconButton
-                                variant={"ghost"}
-                                size={"lg"}
-                                icon={<MdMoreVert />}
-                              />
-                            </MenuButton>
-                            <MenuList ml={"-160px"} mt={"-10px"}>
-                              <MenuItem icon={<MdEdit />}>
-                                Edit Attendance
-                              </MenuItem>
-                              <MenuItem icon={<MdCalculate />}>
-                                Calculate Attendance
-                              </MenuItem>
-                            </MenuList>
-                          </Menu>
+                         
                         </Flex>
                       </CardHeader>
                       <CardBody fontSize={"1.3rem"}>
