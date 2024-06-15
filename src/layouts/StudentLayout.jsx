@@ -24,6 +24,15 @@ import {
   Tooltip,
   Wrap,
   WrapItem,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Input,
 } from "@chakra-ui/react"
 import Hamburger from "hamburger-react"
 import { Link, Outlet } from "react-router-dom"
@@ -42,9 +51,12 @@ import { useNavigate, useParams } from "react-router-dom"
 import { AddIcon, BellIcon, SearchIcon } from "@chakra-ui/icons"
 import axios from "axios"
 export default function StudentLayout() {
+  const [updateAttendanceTab] = useUpdateAttendanceTabMutation();
+  const [attendanceCode, setAttendanceCode] = useState("");
   const { id } = useParams()
   const navigate = useNavigate()
   const [student, setStudent] = useState(null);
+  const { isOpen: isOpen, onOpen: onOpen, onClose: onClose } = useDisclosure();
   const fetchStudentById = async (id) => {
     try {
       const response = await axios.get(`http://localhost:3500/students/student/${id}`);
@@ -69,6 +81,17 @@ export default function StudentLayout() {
 useEffect(() => {
     if (isSuccess) navigate('/')
 }, [isSuccess, navigate])
+const handleSubmit = async (e) => {
+  console.log("submitted", attendanceCode, id);
+  if (attendanceCode && id) {
+    try {
+      await updateAttendanceTab({id, attendanceCode });
+      navigate(`/student/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
 
 useEffect(() => {
   document.body.classList.add("bg-color")
@@ -236,6 +259,7 @@ const [display, setDisplay] = useState("none")
                   variant={"ghost"}
                   colorScheme='white'
                   icon={<AddIcon />}
+                  onClick={onOpen}
                 />
               </Tooltip>
 
@@ -252,6 +276,25 @@ const [display, setDisplay] = useState("none")
           <Outlet />
         </GridItem>
       </Grid>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Join an attendance</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text mb={'10px'}>Ask your lecturer for the course attendance tab, then enter it below:</Text>
+            <Input mb={'10px'} placeholder="attendance code" value={attendanceCode} onChange={(e) => setAttendanceCode(e.target.value)}/>
+            <Text>If you have an issue joining the attendance, go to the <Link to="/about" style={{color:'blue'}}>Help guide</Link></Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+              Submit
+            </Button>
+            <Button variant="ghost" onClick={onClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   )
 }
