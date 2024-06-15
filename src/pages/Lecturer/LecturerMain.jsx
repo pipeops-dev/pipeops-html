@@ -60,6 +60,25 @@ export default function LecturerMain() {
   };
   return (
     <div>
+      <Container mt={"0px"}>
+        <Flex justify={"center"}>
+          <Box w={"500px"}>
+            <img src={nodata} alt="no-data" />
+          </Box>
+        </Flex>
+        <Text textAlign={"center"} fontWeight={"semibold"} mt={"-80px"}>
+          You are yet to join an attendance tab
+        </Text>
+        <Flex justify={"center"} mt={"20px"} gap={"5"}>
+        <Button colorScheme="red" onClick={onCreateOpen}>
+          Create
+        </Button>
+        <Button colorScheme="white" color={"red"} onClick={onJoinOpen}>
+          Join
+        </Button>
+      </Flex>
+      </Container>
+      
       <Modal isOpen={isJoinOpen} onClose={onJoinClose}>
         <ModalOverlay />
         <ModalContent>
@@ -122,22 +141,7 @@ export default function LecturerMain() {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Container mt={"0px"}>
-        <Flex justify={"center"}>
-          <Box w={"500px"}>
-            <img src={nodata} alt="no-data" />
-          </Box>
-          <Text>You are yet to create an attendance tab</Text>
-        </Flex>
-      </Container>
-      <Flex justify={"center"} mt={"20px"} gap={"5"}>
-        <Button colorScheme="red" onClick={onCreateOpen}>
-          Create
-        </Button>
-        <Button colorScheme="white" color={"red"} onClick={onJoinOpen}>
-          Join
-        </Button>
-      </Flex>
+      
     </div>
   );
 }
