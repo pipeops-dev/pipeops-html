@@ -18,6 +18,7 @@ import {
   FormLabel,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState} from "react";
 import nodata from "../../images/no-data.png";
@@ -31,6 +32,7 @@ export default function LecturerMain() {
   const [lecturerId, setLecturerId] = useState(id);
   const [courseCode, setCourseCode] = useState("");
   const [courseName, setCourseName] = useState("");
+  const toast = useToast();
   useEffect(() => {
     document.body.classList.add("bg-color");
   }, []);
@@ -53,6 +55,14 @@ export default function LecturerMain() {
         setCourseName("");
         onCreateClose();
         navigate(`/lecturer/${id}`);
+        toast({
+          position: "top",
+          title: "Attendance tab created.",
+          description: "Do not forget to share the code with your students by clicking on the clipboard icon.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       } catch (error) {
         console.log(error);
       }

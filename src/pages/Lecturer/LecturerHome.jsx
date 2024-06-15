@@ -18,7 +18,7 @@ import {
   Spinner,
   Heading,
   Divider,
-  HStack
+  HStack,
 } from "@chakra-ui/react"
 import { v4 as uuidv4 } from "uuid"
 import { useEffect, useState } from "react"
@@ -35,7 +35,7 @@ import {
   MdCalculate,
   MdLockOpen,
 } from "react-icons/md"
-
+import copy from 'copy-to-clipboard'
 
 export default function LecturerHome() {
   const {id} = useParams()
@@ -127,13 +127,14 @@ export default function LecturerHome() {
                     <IconButton
                       onClick={() => handleCardClick(id)}
                       variant={"ghost"}
-                      icon={course.Open ? <MdLockOpen color="green" /> : <MdLockOutline color='red' /> }
+                      icon={course.Open ? <MdLockOpen color="green" /> : <MdLockOutline /> }
                       size={"lg"}
+                      
                     />
 
                     <IconButton
                   onClick={() => {
-                    onCopy(course.attendanceCode)
+                    copy(course.attendanceCode)
                     toast({
                       position: "top-right",
                       title: "Attendance Code Copied",

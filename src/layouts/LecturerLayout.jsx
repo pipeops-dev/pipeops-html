@@ -34,6 +34,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { Link, Outlet } from "react-router-dom";
 import {
@@ -59,6 +60,7 @@ export default function LecturerLayout() {
   const [lecturerId, setLecturerId] = useState(id);
   const [courseCode, setCourseCode] = useState("");
   const [courseName, setCourseName] = useState("");
+  const toast = useToast();
   const { data: lecturer } = useGetLecturerByIdQuery(id, {
     pollingInterval: 15000,
     refetchOnFocus: true,
@@ -89,6 +91,14 @@ export default function LecturerLayout() {
         localStorage.setItem("attendanceExist", "true");
         navigate(`/lecturer/${id}`);
         onCreateClose();
+        toast({
+          position: "top",
+          title: "Attendance tab created.",
+          description: "Do not forget to share the code with your students by clicking on the clipboard icon.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       } catch (error) {
         console.log(error);
       }
