@@ -36,22 +36,30 @@ import {
 } from "react-icons/md"
 import { useEffect, useState, useContext } from "react"
 import logo from "../images/logo.png"
-import { useGetStudentByIdQuery } from "../features/studentAuth/studentAuthApiSlice"
 import { useSendLogoutMutation } from "../features/studentAuth/studentAuthApiSlice"
 import { useUpdateAttendanceTabMutation } from "../features/attendanceTab/studentAttendanceApiSlice";
 import { useNavigate, useParams } from "react-router-dom"
 import { AddIcon, BellIcon, SearchIcon } from "@chakra-ui/icons"
+import axios from "axios"
 export default function StudentLayout() {
   const { id } = useParams()
   const navigate = useNavigate()
-  
-  const { data: student } = useGetStudentByIdQuery(id, {
-    pollingInterval: 15000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
-  });
- 
-  console.log(student)  
+  const [student, setStudent] = useState(null);
+  const fetchStudentById = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:3500/students/student/${id}`);
+      console.log(response.data); // This will log the student's details
+      setStudent(response.data);
+    } catch (error) {
+      console.error("Error fetching student:", error.response.data);
+      return null;
+    }
+  };
+  useEffect(() => {
+    if (id) {
+      fetchStudentById(id);
+    }
+  }, [id]); 
   const [sendLogout, {
     isSuccess,
     isError,
