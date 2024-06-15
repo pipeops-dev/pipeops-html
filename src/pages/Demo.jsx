@@ -1,6 +1,6 @@
 import React from 'react'
 import Footer from '../component/Footer'
-import { Box, Center, Flex, HStack, Heading, Text, Container, Button } from '@chakra-ui/react'
+import { Box, Center, Flex, HStack, Heading, Text, Container, Button, FormControl, FormLabel, Input } from '@chakra-ui/react'
 import logo from '../images/logo-revamp.svg'
 import logo2 from "../images/logo.png";
 import { NavLink } from "react-router-dom";
@@ -77,8 +77,12 @@ export default function Demo() {
           w={"auto"}
         >
           <FormControl>
-            <FormLabel>First name</FormLabel>
-            <Input type="text" placeholder="First name" />
+            <FormLabel>Full Name</FormLabel>
+            <Input type="text" placeholder="Name" />
+          </FormControl>
+          <FormControl>
+            <FormLabel>Email</FormLabel>
+            <Input type="email" placeholder="Email" />
           </FormControl>
         </Container>
       </Flex></>
