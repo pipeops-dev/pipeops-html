@@ -76,7 +76,10 @@ export default function Demo() {
          
           w={"auto"}
         >
-          <video src=""></video>
+          <FormControl>
+            <FormLabel>First name</FormLabel>
+            <Input type="text" placeholder="First name" />
+          </FormControl>
         </Container>
       </Flex></>
   )
