@@ -45,6 +45,7 @@ import PersistLecturerLogin from "./Login/PersistLecturerLogin";
 import PersistStudentLogin from "./Login/PersistStudentLogin";
 import StudentHome from "./pages/student/StudentHome";
 import Demo from "./pages/Demo";
+import AttendanceForm from "./pages/student/AttendanceForm";
 
 
 const router = createBrowserRouter(
@@ -118,6 +119,7 @@ const router = createBrowserRouter(
       <Route path="code/:id" element={<LecturerCode />}>
         {" "}
       </Route>
+      <Route path='submit-attendance' element={<AttendanceForm/>}></Route>
     </>
   )
 );
