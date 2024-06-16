@@ -19,6 +19,15 @@ import {
   Heading,
   Divider,
   HStack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
 } from "@chakra-ui/react"
 import { v4 as uuidv4 } from "uuid"
 import { useEffect, useState } from "react"
@@ -34,14 +43,16 @@ import {
   MdEdit,
   MdCalculate,
   MdLockOpen,
+  MdOutlineAddCircleOutline,
+  MdViewList
 } from "react-icons/md"
 import copy from 'copy-to-clipboard'
 
 export default function LecturerHome() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {id} = useParams()
   const navigate = useNavigate()
   const [lecturerId, setLecturerId] = useState(id)
-  const { onCopy } = useClipboard();
   const toast = useToast()
   const {
     data: attendanceTabs,
@@ -72,6 +83,11 @@ export default function LecturerHome() {
     }
   }
  
+  const handleClick = () => {
+    console.log("clicked")
+  }
+
+
   return (
     
     <div>
@@ -110,7 +126,10 @@ export default function LecturerHome() {
                           />
                         </MenuButton>
                         <MenuList ml={"-160px"} mt={"-10px"}>
-                          <MenuItem icon={<MdEdit />}>Edit Attendance</MenuItem>
+                          <MenuItem icon={<MdOutlineAddCircleOutline />}>
+                            Create Attendance
+                          </MenuItem>
+                          <MenuItem icon={<MdViewList />}>View Attendance</MenuItem>
                           <MenuItem icon={<MdCalculate />}>
                             Calculate Attendance
                           </MenuItem>
@@ -154,6 +173,24 @@ export default function LecturerHome() {
               </div>
             );
           })}
+          <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Create Attendance</ModalHeader>
+          <ModalCloseButton />
+          
+            <ModalBody>
+              <Text></Text>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} type="submit">
+                Submit
+              </Button>
+              <Button variant="ghost" onClick={onClose}>Cancel</Button>
+            </ModalFooter>
+        </ModalContent>
+      </Modal>
         </SimpleGrid>
       </div>
           )

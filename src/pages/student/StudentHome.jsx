@@ -151,7 +151,7 @@ export default function StudentHome() {
                   </div>
                 );
               })}
-        <Modal isOpen={isAttendance} onClose={closeAttendance}>
+        <Modal isOpen={isAttendance} onClose={closeAttendance} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Student Information</ModalHeader>

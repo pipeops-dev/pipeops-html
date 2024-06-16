@@ -11,7 +11,7 @@ const initialState = attendancesAdapter.getInitialState()
 export const attendancesApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         getAttendances: builder.query({
-            query: () => '/register/attendances',
+            query: () => '/attendance',
             validateStatus: (response, result) => {
                 return response.status === 200 && !result.isError
             },
