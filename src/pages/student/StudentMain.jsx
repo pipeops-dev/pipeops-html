@@ -16,6 +16,8 @@ import {
   ModalCloseButton,
   useDisclosure,
   Input,
+  Spinner,
+  Center
 } from "@chakra-ui/react";
 import { Link , useNavigate, useParams} from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -23,13 +25,18 @@ import nodata from "../../images/no-data.png";
 import { color } from "framer-motion";
 import { useUpdateAttendanceTabMutation} from "../../features/attendanceTab/studentAttendanceApiSlice"
 export default function StudentMain() {
-  const [updateAttendanceTab, {isSuccess, isError, error }] = useUpdateAttendanceTabMutation();
+  const [updateAttendanceTab, {isLoading, isSuccess, isError, error }] = useUpdateAttendanceTabMutation();
   const [attendanceCode, setAttendanceCode] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
   useEffect(() => {
     document.body.classList.add("bg-color");
   }, []);
+  useEffect(() => {
+    if (isLoading) {
+      return <Center><Spinner /></Center>
+    }
+  }, [isError, error]);
   useEffect(() => {
     if (isSuccess) {
       setAttendanceCode("")
