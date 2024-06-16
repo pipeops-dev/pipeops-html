@@ -56,12 +56,11 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function LecturerLayout() {
   const [addNewAttendanceTab] = useAddNewAttendanceTabMutation();
   const navigate = useNavigate();
-  const { id } = useParams();
-  const [lecturerId, setLecturerId] = useState(id);
+  const { lecturerId } = useParams();
   const [courseCode, setCourseCode] = useState("");
   const [courseName, setCourseName] = useState("");
   const toast = useToast();
-  const { data: lecturer } = useGetLecturerByIdQuery(id, {
+  const { data: lecturer } = useGetLecturerByIdQuery(lecturerId, {
     pollingInterval: 15000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
@@ -89,7 +88,7 @@ export default function LecturerLayout() {
         setCourseCode("");
         setCourseName("");
         localStorage.setItem("attendanceExist", "true");
-        navigate(`/lecturer/${id}`);
+        navigate(`/lecturer/${lecturerId}`);
         onCreateClose();
         toast({
           position: "top",

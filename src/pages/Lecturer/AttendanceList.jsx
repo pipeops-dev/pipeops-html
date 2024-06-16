@@ -19,7 +19,7 @@ export default function AttendanceList() {
       }, []);
   return (
     <>
-   
+   hi
     
     </>
   );

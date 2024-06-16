@@ -5,7 +5,7 @@ export const lecturerAuthApiSlice = lecturerApiSlice.injectEndpoints({
   endpoints: (builder) => ({
 
     getLecturerById: builder.query({
-      query: (id) => `/lecturers/lecturer/${id}`,
+      query: (id) => `/lecturers/lecturer/${lectureId}`,
       transformResponse: (responseData) => {
         const transformedData = { ...responseData, id: responseData._id };
         return transformedData;
