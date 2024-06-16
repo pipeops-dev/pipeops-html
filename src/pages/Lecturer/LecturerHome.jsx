@@ -51,9 +51,8 @@ import copy from "copy-to-clipboard";
 
 export default function LecturerHome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { id } = useParams();
+  const { lecturerId } = useParams();
   const navigate = useNavigate();
-  const [lecturerId, setLecturerId] = useState(id);
   const [attendanceId, setAttendanceId] = useState("");
   const toast = useToast();
   const {
@@ -88,14 +87,17 @@ export default function LecturerHome() {
   };
 
   const handleClick = async (id) => {
-    setAttendanceId(id)
     try{
-      await addNewAttendance({ attendanceId, lecturerId });
-      console.log(lecturerId, attendanceId)
+      await addNewAttendance({ id, lecturerId });
+      console.log(lecturerId, id)
     }catch(error){
       console.log(error);
     }
   };
+
+  const viewAttendance = (id) => {  
+    navigate(`/lecturer/${lecturerId}/attendance/${id}`);
+  }
 
   return (
     <div>
@@ -140,7 +142,7 @@ export default function LecturerHome() {
                               >
                                 Create Attendance
                               </MenuItem>
-                              <MenuItem icon={<MdViewList />}>
+                              <MenuItem icon={<MdViewList />} onClick={() => viewAttendance(id)} >
                                 View Attendance
                               </MenuItem>
                               <MenuItem icon={<MdCalculate />}>

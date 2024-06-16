@@ -46,6 +46,7 @@ import PersistStudentLogin from "./Login/PersistStudentLogin";
 import StudentHome from "./pages/student/StudentHome";
 import Demo from "./pages/Demo";
 import AttendanceForm from "./pages/student/AttendanceForm";
+import AttendanceList from "./pages/Lecturer/AttendanceList";
 
 
 const router = createBrowserRouter(
@@ -78,7 +79,7 @@ const router = createBrowserRouter(
       </Route>
       <Route element={<PersistLecturerLogin />}>
       <Route
-        path="lecturer/:id"
+        path="lecturer/:lecturerId"
         element={
           <ProtectedRoute roles={['Lecturer']} selector={selectLecturerToken} requiredRole="Lecturer">
             <LecturerLayout />
@@ -87,6 +88,7 @@ const router = createBrowserRouter(
       >
         <Route index element={<LecturerHome />} />
         <Route path="new" element={<LecturerMain />} />
+        <Route path='attendance/:attendanceId' element={<AttendanceList/>}/>
       </Route>
       </Route>
       <Route element={<PersistStudentLogin/>}>
