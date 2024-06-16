@@ -90,6 +90,15 @@ export default function LecturerHome() {
     try{
       await addNewAttendance({ id, lecturerId });
       console.log(lecturerId, id)
+      onClose()
+      toast({
+        position: "top-right",
+        title: "Attendance Created",
+        description: `The attendance has been created successfully.`,
+        status: "success",
+        duration: 7000,
+        isClosable: true,
+      });
     }catch(error){
       console.log(error);
     }
