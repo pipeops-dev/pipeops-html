@@ -80,9 +80,6 @@ export default function StudentHome() {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    setDepartment('');
-    setName('');
-    setMatricNumber('');
     // Handle form submission logic here
     console.log({ name, matricNumber, department });
     closeAttendance()
@@ -90,6 +87,9 @@ export default function StudentHome() {
   };
   const handleSubmitPin = () => {
     setPin('');
+    setDepartment('');
+    setName('');
+    setMatricNumber('');
     // Handle form submission logic here
     console.log({ pin });
     closePin() // Close modal after form submission
@@ -199,8 +199,7 @@ export default function StudentHome() {
             </HStack>
           </ModalBody>
           <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmitPin}>  Submit</Button>
-            <Text>Forgot your Pin?</Text>
+          <Button colorScheme="blue" mr={3} onClick={handleSubmitPin}>Submit</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
