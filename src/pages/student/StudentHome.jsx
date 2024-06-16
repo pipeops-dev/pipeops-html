@@ -57,6 +57,11 @@ export default function StudentHome() {
     document.body.classList.add("bg-color");
   }, []);
 
+  const submitAttendance = () => {
+    console.log("submitting attendance");
+    //navigate('/submit-attendnace');
+  }
+
   return (
     <div>
       {isLoading ? (
@@ -77,7 +82,7 @@ export default function StudentHome() {
 
                 return (
                   <div key={index}>
-                    <Card variant={"elevated"}  backgroundColor={course.open ? "white" : "#D3D3D3"} >
+                    <Card variant={"elevated"}  backgroundColor={course.Open ? "white" : "#D3D3D3"} onClick={course.Open ? submitAttendance : undefined} >
                       <CardHeader>
                         <Flex>
                           <Heading fontSize={"2rem"} pl={"10px"} mt={"15px"}>
