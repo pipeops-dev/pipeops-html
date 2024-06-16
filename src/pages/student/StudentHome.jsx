@@ -76,9 +76,12 @@ export default function StudentHome() {
   
   const handleSubmit = (e) => {
     e.preventDefault();
+    setDepartment('');
+    setName('');
+    setMatric('');
     // Handle form submission logic here
     console.log({ name, matric, department });
-    onClose(); // Close modal after form submission
+    closeAttendance() // Close modal after form submission
   };
   return (
     <div>
