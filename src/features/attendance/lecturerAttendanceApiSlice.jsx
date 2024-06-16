@@ -2,25 +2,25 @@ import {
     createSelector,
     createEntityAdapter
 } from "@reduxjs/toolkit";
-import { apiSlice } from "../../app/api/apiSlice"
+import { lecturerApiSlice } from "../../app/api/lecturerApiSlice"
 
-const attendancesAdapter = createEntityAdapter({})
+const lecturerAttendanceAdapter = createEntityAdapter({})
 
-const initialState = attendancesAdapter.getInitialState()
+const initialState = lecturerAttendanceAdapter.getInitialState()
 
-export const attendancesApiSlice = apiSlice.injectEndpoints({
+export const lecturerAttendanceApiSlice = lecturerApiSlice.injectEndpoints({
     endpoints: builder => ({
-        getAttendances: builder.query({
+        getLecturerAttendance: builder.query({
             query: () => '/attendance',
             validateStatus: (response, result) => {
                 return response.status === 200 && !result.isError
             },
             transformResponse: responseData => {
-                const loadedAttendances = responseData.map(attendance => {
+                const loadedLecturerAttendance = responseData.map(attendance => {
                     attendance.id = attendance._id
                     return attendance
                 });
-                return attendancesAdapter.setAll(initialState, loadedAttendances)
+                return lecturerAttendanceAdapter.setAll(initialState, loadedLecturerAttendance)
             },
             providesTags: (result, error, arg) => {
                 if (result?.ids) {
@@ -33,7 +33,7 @@ export const attendancesApiSlice = apiSlice.injectEndpoints({
         }),
         addNewAttendance: builder.mutation({
             query: initialAttendanceData => ({
-                url: '/attendances',
+                url: '/attendance',
                 method: 'POST',
                 body: {
                     ...initialAttendanceData,
@@ -45,7 +45,7 @@ export const attendancesApiSlice = apiSlice.injectEndpoints({
         }),
         updateAttendance: builder.mutation({
             query: initialAttendanceData => ({
-                url: '/attendances',
+                url: '/lecturerAttendance',
                 method: 'PATCH',
                 body: {
                     ...initialAttendanceData,
@@ -57,7 +57,7 @@ export const attendancesApiSlice = apiSlice.injectEndpoints({
         }),
         deleteAttendance: builder.mutation({
             query: ({ id }) => ({
-                url: `/attendances`,
+                url: `/lecturerAttendance`,
                 method: 'DELETE',
                 body: { id }
             }),
@@ -69,25 +69,25 @@ export const attendancesApiSlice = apiSlice.injectEndpoints({
 })
 
 export const {
-    useGetAttendancesQuery,
+    useGetLecturerAttendanceQuery,
     useAddNewAttendanceMutation,
     useUpdateAttendanceMutation,
     useDeleteAttendanceMutation,
-} = attendancesApiSlice
+} = lecturerAttendanceApiSlice
 
 // returns the query result object
-export const selectAttendancesResult = attendancesApiSlice.endpoints.getAttendances.select()
+export const selectLecturerAttendanceResult = lecturerAttendanceApiSlice.endpoints.getLecturerAttendance.select()
 
 // creates memoized selector
-const selectAttendancesData = createSelector(
-    selectAttendancesResult,
-    attendancesResult => attendancesResult.data // normalized state object with ids & entities
+const selectLecturerAttendanceData = createSelector(
+    selectLecturerAttendanceResult,
+    lecturerAttendanceResult => lecturerAttendanceResult.data // normalized state object with ids & entities
 )
 
 //getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
-    selectAll: selectAllAttendances,
+    selectAll: selectAllLecturerAttendance,
     selectById: selectAttendanceById,
     selectIds: selectAttendanceIds
-    // Pass in a selector that returns the attendances slice of state
-} = attendancesAdapter.getSelectors(state => selectAttendancesData(state) ?? initialState)
+    // Pass in a selector that returns the lecturerAttendance slice of state
+} = lecturerAttendanceAdapter.getSelectors(state => selectLecturerAttendanceData(state) ?? initialState)

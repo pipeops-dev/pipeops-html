@@ -28,14 +28,15 @@ import {
   ModalCloseButton,
   useDisclosure,
   Button,
-} from "@chakra-ui/react"
-import { v4 as uuidv4 } from "uuid"
-import { useEffect, useState } from "react"
-import { useClipboard, useToast } from '@chakra-ui/react';
-import {useParams, useNavigate } from "react-router-dom"
-import { color } from "framer-motion"
-import { useGetAttendanceTabQuery } from "../../features/attendanceTab/lecturerAttendanceTabApiSlice"
-import { useToggleOpenAttendanceTabMutation } from "../../features/attendanceTab/lecturerAttendanceTabApiSlice"
+} from "@chakra-ui/react";
+import { v4 as uuidv4 } from "uuid";
+import { useEffect, useState } from "react";
+import { useClipboard, useToast } from "@chakra-ui/react";
+import { useParams, useNavigate } from "react-router-dom";
+import { color } from "framer-motion";
+import { useGetAttendanceTabQuery } from "../../features/attendanceTab/lecturerAttendanceTabApiSlice";
+import { useToggleOpenAttendanceTabMutation } from "../../features/attendanceTab/lecturerAttendanceTabApiSlice";
+import { useAddNewAttendanceMutation } from "../../features/attendance/lecturerAttendanceApiSlice";
 import {
   MdContentCopy,
   MdMoreVert,
@@ -44,16 +45,17 @@ import {
   MdCalculate,
   MdLockOpen,
   MdOutlineAddCircleOutline,
-  MdViewList
-} from "react-icons/md"
-import copy from 'copy-to-clipboard'
+  MdViewList,
+} from "react-icons/md";
+import copy from "copy-to-clipboard";
 
 export default function LecturerHome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {id} = useParams()
-  const navigate = useNavigate()
-  const [lecturerId, setLecturerId] = useState(id)
-  const toast = useToast()
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [lecturerId, setLecturerId] = useState(id);
+  const [attendanceId, setAttendanceId] = useState("");
+  const toast = useToast();
   const {
     data: attendanceTabs,
     isLoading,
@@ -64,138 +66,160 @@ export default function LecturerHome() {
     refetchOnMountOrArgChange: true,
   });
 
-  const [toggleOpenAttendanceTab, {isSuccess}] = useToggleOpenAttendanceTabMutation()
+  const [toggleOpenAttendanceTab, { isSuccess }] =
+    useToggleOpenAttendanceTabMutation();
+  const [addNewAttendance] = useAddNewAttendanceMutation();
   useEffect(() => {
     if (!isLoading && (!attendanceTabs || attendanceTabs.ids.length === 0)) {
       navigate(`/lecturer/${lecturerId}/new`);
     }
   }, [isLoading, attendanceTabs, navigate, lecturerId]);
   useEffect(() => {
-    document.body.classList.add("bg-color")
-  }, [])
-  
-  const handleCardClick = async (id) => {
-    console.log(id)
-    try {
-     await toggleOpenAttendanceTab({id})
-    } catch (error) {
-      console.log(error)
-    }
-  }
- 
-  const handleClick = () => {
-    console.log("clicked")
-  }
+    document.body.classList.add("bg-color");
+  }, []);
 
+  const handleCardClick = async (id) => {
+    console.log(id);
+    try {
+      await toggleOpenAttendanceTab({ id });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClick = async (id) => {
+    setAttendanceId(id)
+    try{
+      await addNewAttendance({ attendanceId, lecturerId });
+      console.log(lecturerId, attendanceId)
+    }catch(error){
+      console.log(error);
+    }
+  };
 
   return (
-    
     <div>
-        {
-          isLoading ? (
-            <Center height='100vh'>
-              <Spinner size='xl' />
-            </Center>
-          ) :(
-            <div>
-        <SimpleGrid
-          columns={{ base: "1", lg: "3", xl: "3" }}
-          mx={"20px"}
-          gap={"10"}
-          mt={"30px"}
-        >
-          {attendanceTabs && attendanceTabs.ids.map((id, index) => {
-            const course = attendanceTabs.entities[id];
-  
-            return (
-              <div key={index}>
-                <Card variant={'elevated'}>
-                  <CardHeader>
-                    <Flex>
-                      <Heading fontSize={"2rem"} pl={"10px"} mt={"15px"}>
-                        {course.courseCode}
-                      </Heading>
-                      <Spacer />
-                      <Menu>
-                        <MenuButton>
-                          {" "}
+      {isLoading ? (
+        <Center height="100vh">
+          <Spinner size="xl" />
+        </Center>
+      ) : (
+        <div>
+          <SimpleGrid
+            columns={{ base: "1", lg: "3", xl: "3" }}
+            mx={"20px"}
+            gap={"10"}
+            mt={"30px"}
+          >
+            {attendanceTabs &&
+              attendanceTabs.ids.map((id, index) => {
+                const course = attendanceTabs.entities[id];
+
+                return (
+                  <div key={index}>
+                    <Card variant={"elevated"}>
+                      <CardHeader>
+                        <Flex>
+                          <Heading fontSize={"2rem"} pl={"10px"} mt={"15px"}>
+                            {course.courseCode}
+                          </Heading>
+                          <Spacer />
+                          <Menu>
+                            <MenuButton>
+                              {" "}
+                              <IconButton
+                                variant={"ghost"}
+                                size={"lg"}
+                                icon={<MdMoreVert />}
+                              />
+                            </MenuButton>
+                            <MenuList ml={"-160px"} mt={"-10px"}>
+                              <MenuItem
+                                icon={<MdOutlineAddCircleOutline />}
+                                onClick={onOpen}
+                              >
+                                Create Attendance
+                              </MenuItem>
+                              <MenuItem icon={<MdViewList />}>
+                                View Attendance
+                              </MenuItem>
+                              <MenuItem icon={<MdCalculate />}>
+                                Calculate Attendance
+                              </MenuItem>
+                            </MenuList>
+                          </Menu>
+                        </Flex>
+                      </CardHeader>
+                      <CardBody fontSize={"1.3rem"}>
+                        {course.courseName}
+                      </CardBody>
+                      <Divider />
+                      <CardFooter>
+                        <Spacer />
+                        <HStack>
                           <IconButton
+                            onClick={() => handleCardClick(id)}
+                            variant={"ghost"}
+                            icon={
+                              course.Open ? (
+                                <MdLockOpen color="green" />
+                              ) : (
+                                <MdLockOutline />
+                              )
+                            }
+                            size={"lg"}
+                          />
+
+                          <IconButton
+                            onClick={() => {
+                              copy(course.attendanceCode);
+                              toast({
+                                position: "top-right",
+                                title: "Attendance Code Copied",
+                                description: `The attendance code ${course.attendanceCode} has been copied to your clipboard. Do well to send it to your students.`,
+                                status: "success",
+                                duration: 10000,
+                                isClosable: true,
+                              });
+                            }}
                             variant={"ghost"}
                             size={"lg"}
-                            icon={<MdMoreVert />}
+                            icon={<MdContentCopy />}
                           />
-                        </MenuButton>
-                        <MenuList ml={"-160px"} mt={"-10px"}>
-                          <MenuItem icon={<MdOutlineAddCircleOutline />}>
-                            Create Attendance
-                          </MenuItem>
-                          <MenuItem icon={<MdViewList />}>View Attendance</MenuItem>
-                          <MenuItem icon={<MdCalculate />}>
-                            Calculate Attendance
-                          </MenuItem>
-                        </MenuList>
-                      </Menu>
-                    </Flex>
-                  </CardHeader>
-                  <CardBody fontSize={"1.3rem"}>{course.courseName}</CardBody>
-                  <Divider />
-                  <CardFooter>
-                    <Spacer />
-                    <HStack>
-                    
-                    <IconButton
-                      onClick={() => handleCardClick(id)}
-                      variant={"ghost"}
-                      icon={course.Open ? <MdLockOpen color="green" /> : <MdLockOutline /> }
-                      size={"lg"}
-                      
-                    />
+                        </HStack>
+                      </CardFooter>
+                    </Card>
+                    <Modal isOpen={isOpen} onClose={onClose}>
+                  <ModalOverlay />
+                  <ModalContent>
+                    <ModalHeader>Create Attendance</ModalHeader>
+                    <ModalCloseButton />
 
-                    <IconButton
-                  onClick={() => {
-                    copy(course.attendanceCode)
-                    toast({
-                      position: "top-right",
-                      title: "Attendance Code Copied",
-                      description: `The attendance code ${course.attendanceCode} has been copied to your clipboard. Do well to send it to your students.`, 
-                      status: "success",
-                      duration: 10000,
-                      isClosable: true,
-                    });
-                  }}
-                  variant={"ghost"}
-                  size={"lg"}
-                  icon={<MdContentCopy />}
-                />
-                    </HStack>
-                  </CardFooter>
-                </Card>
-              </div>
-            );
-          })}
-          <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Create Attendance</ModalHeader>
-          <ModalCloseButton />
-          
-            <ModalBody>
-              <Text></Text>
-            </ModalBody>
+                    <ModalBody>
+                      <Text fontWeight={"bold"}>
+                        An atttendance is about to be created. Please don't
+                        forget to open the attendance tab so your student would
+                        have access to submit their attendance.
+                      </Text>
+                    </ModalBody>
 
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} type="submit">
-                Submit
-              </Button>
-              <Button variant="ghost" onClick={onClose}>Cancel</Button>
-            </ModalFooter>
-        </ModalContent>
-      </Modal>
-        </SimpleGrid>
-      </div>
-          )
-        }
-      </div>
-    );
+                    <ModalFooter>
+                      <Button colorScheme="blue" mr={3} type="submit" onClick={() => handleClick(id)}>
+                        Create
+                      </Button>
+                      <Button variant="ghost" onClick={onClose}>
+                        Cancel
+                      </Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>;
+                  </div>
+                );
+                
+              })}
+          </SimpleGrid>
+        </div>
+      )}
+    </div>
+  );
 }
-
