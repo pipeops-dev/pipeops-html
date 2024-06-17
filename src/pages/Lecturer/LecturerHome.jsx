@@ -78,6 +78,7 @@ export default function LecturerHome() {
   }, []);
 
   const handleCardClick = async (course) => {
+    console.log(course.id)
     try {
       await toggleOpenAttendanceTab({ id:course.id });
       if (course.Open) {
@@ -107,7 +108,7 @@ export default function LecturerHome() {
 
   const handleClick = async (id) => {
     try{
-      await addNewAttendance({ id, lecturerId });
+      await addNewAttendance({ attendanceTabId: id, lecturerId });
       console.log(lecturerId, id)
       onClose()
       toast({
