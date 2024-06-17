@@ -1,0 +1,39 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+}
+
+.navbar-logo {
+    height: 6rem;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid var(--grey);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%);
+}
+
+.search-bar:hover {
+    box-shadow: 0 1px 2px rgb(0 0 0 / 12%), 0 4px 12px rgb(0 0 0 / 9%);
+    transition: all 0.2s;
+}
+
+.search-bar-text {
+    font-size: .95rem;
+    font-weight: 600;
+    border-right: 1px solid var(--grey);
+    padding-right: 0.5rem;
+}
+
+.search-bar-text3 {
+    color: var(--font-grey);
+}
