@@ -32,12 +32,12 @@ import {
   PinInput,
   PinInputField,
   Input,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { color } from "framer-motion";
-import { useGetAttendanceTabQuery } from "../../features/attendanceTab/studentAttendanceApiSlice";
+import { useGetAttendanceTabQuery } from "../../features/attendanceTab/studentAttendanceTabApiSlice";
 
 import {
   MdMoreVert,
@@ -48,12 +48,16 @@ import {
 } from "react-icons/md";
 
 export default function StudentHome() {
-  const { isOpen:isAttendance, onOpen:onAttendance, onClose:closeAttendance } = useDisclosure();
-  const { isOpen:isPin, onOpen:onPin, onClose:closePin } = useDisclosure();
-  const [name, setName] = useState('');
-  const [matricNumber, setMatricNumber] = useState('');
-  const [department, setDepartment] = useState('');
-  const [pin, setPin] = useState('');
+  const {
+    isOpen: isAttendance,
+    onOpen: onAttendance,
+    onClose: closeAttendance,
+  } = useDisclosure();
+  const { isOpen: isPin, onOpen: onPin, onClose: closePin } = useDisclosure();
+  const [name, setName] = useState("");
+  const [matricNumber, setMatricNumber] = useState("");
+  const [department, setDepartment] = useState("");
+  const [pin, setPin] = useState("");
   const { id } = useParams();
   const [studentId, setStudentId] = useState(id);
   const navigate = useNavigate();
@@ -77,22 +81,21 @@ export default function StudentHome() {
     document.body.classList.add("bg-color");
   }, []);
 
-  
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
     console.log({ name, matricNumber, department });
-    closeAttendance()
-    onPin() // Close modal after form submission
+    closeAttendance();
+    onPin(); // Close modal after form submission
   };
   const handleSubmitPin = () => {
-    setPin('');
-    setDepartment('');
-    setName('');
-    setMatricNumber('');
+    setPin("");
+    setDepartment("");
+    setName("");
+    setMatricNumber("");
     // Handle form submission logic here
     console.log({ pin });
-    closePin() // Close modal after form submission
+    closePin(); // Close modal after form submission
   };
   return (
     <div>
@@ -114,14 +117,17 @@ export default function StudentHome() {
 
                 return (
                   <div key={index}>
-                    <Card variant={"elevated"}  backgroundColor={course.Open ? "white" : "#D3D3D3"} onClick={course.Open ? onAttendance : undefined} >
+                    <Card
+                      variant={"elevated"}
+                      backgroundColor={course.Open ? "white" : "#D3D3D3"}
+                      onClick={course.Open ? onAttendance : undefined}
+                    >
                       <CardHeader>
                         <Flex>
                           <Heading fontSize={"2rem"} pl={"10px"} mt={"15px"}>
                             {course.courseCode}
                           </Heading>
                           <Spacer />
-                         
                         </Flex>
                       </CardHeader>
                       <CardBody fontSize={"1.3rem"}>
@@ -151,58 +157,77 @@ export default function StudentHome() {
                   </div>
                 );
               })}
-        <Modal isOpen={isAttendance} onClose={closeAttendance} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Student Information</ModalHeader>
-          <ModalCloseButton />
-          <form onSubmit={handleSubmit}>
-            <ModalBody>
-              <FormControl isRequired>
-                <FormLabel>Name</FormLabel>
-                <Input value={name} placeholder="e.g John Doe" autoComplete="off" onChange={(e) => setName(e.target.value)} />
-              </FormControl>
+            <Modal isOpen={isAttendance} onClose={closeAttendance} isCentered>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Student Information</ModalHeader>
+                <ModalCloseButton />
+                <form onSubmit={handleSubmit}>
+                  <ModalBody>
+                    <FormControl isRequired>
+                      <FormLabel>Name</FormLabel>
+                      <Input
+                        value={name}
+                        placeholder="e.g John Doe"
+                        autoComplete="off"
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </FormControl>
 
-              <FormControl mt={4} isRequired>
-                <FormLabel>MatricNumber Number</FormLabel>
-                <Input value={matricNumber} placeholder="e.g 00000" autoComplete="off" onChange={(e) => setMatricNumber(e.target.value)} />
-              </FormControl>
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>MatricNumber Number</FormLabel>
+                      <Input
+                        value={matricNumber}
+                        placeholder="e.g 00000"
+                        autoComplete="off"
+                        onChange={(e) => setMatricNumber(e.target.value)}
+                      />
+                    </FormControl>
 
-              <FormControl mt={4} isRequired>
-                <FormLabel>Department</FormLabel>
-                <Input value={department} placeholder="e.g Your Department" autoComplete="off" onChange={(e) => setDepartment(e.target.value)} />
-              </FormControl>
-            </ModalBody>
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Department</FormLabel>
+                      <Input
+                        value={department}
+                        placeholder="e.g Your Department"
+                        autoComplete="off"
+                        onChange={(e) => setDepartment(e.target.value)}
+                      />
+                    </FormControl>
+                  </ModalBody>
 
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3} type="submit">
-                Submit
-              </Button>
-              <Button variant="ghost" onClick={closeAttendance}>Cancel</Button>
-            </ModalFooter>
-          </form>
-        </ModalContent>
-      </Modal>
-      <Modal isOpen={isPin} onClose={closePin} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Enter Your 4-Digit Pin</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <HStack justify="center">
-              <PinInput value={pin} onChange={setPin} size="lg">
-                <PinInputField />
-                <PinInputField />
-                <PinInputField />
-                <PinInputField />
-              </PinInput>
-            </HStack>
-          </ModalBody>
-          <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={handleSubmitPin}>Submit</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+                  <ModalFooter>
+                    <Button colorScheme="blue" mr={3} type="submit">
+                      Submit
+                    </Button>
+                    <Button variant="ghost" onClick={closeAttendance}>
+                      Cancel
+                    </Button>
+                  </ModalFooter>
+                </form>
+              </ModalContent>
+            </Modal>
+            <Modal isOpen={isPin} onClose={closePin} isCentered>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Enter Your 4-Digit Pin</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <HStack justify="center">
+                    <PinInput value={pin} onChange={setPin} size="lg">
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                      <PinInputField />
+                    </PinInput>
+                  </HStack>
+                </ModalBody>
+                <ModalFooter>
+                  <Button colorScheme="blue" mr={3} onClick={handleSubmitPin}>
+                    Submit
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
           </SimpleGrid>
         </div>
       )}

@@ -19,10 +19,11 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate} from "react-router-dom";
 import { useGetLecturerAttendanceQuery } from "../../features/attendance/lecturerAttendanceApiSlice";
 export default function AttendanceList() {
   const { lecturerId, attendanceTabId } = useParams();
+  const navigate = useNavigate();
   const {
     data: attendances,
     isLoading,
@@ -38,6 +39,8 @@ export default function AttendanceList() {
 
   const singleAttendance = (id) => {
     console.log(id);
+    navigate(`/lecturer/${lecturerId}/single-attendance/${id}`);
+
   }
   useEffect(() => {
     document.body.classList.add("bg-color");

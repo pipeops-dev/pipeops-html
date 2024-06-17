@@ -33,33 +33,35 @@ import {
   ModalCloseButton,
   useDisclosure,
   Input,
-} from "@chakra-ui/react"
-import Hamburger from "hamburger-react"
-import { Link, Outlet } from "react-router-dom"
+} from "@chakra-ui/react";
+import Hamburger from "hamburger-react";
+import { Link, Outlet } from "react-router-dom";
 import {
   MdAnalytics,
   MdBook,
   MdContactSupport,
   MdHome,
   MdSettings,
-} from "react-icons/md"
-import { useEffect, useState, useContext } from "react"
-import logo from "../images/logo.png"
-import { useSendLogoutMutation } from "../features/studentAuth/studentAuthApiSlice"
-import { useUpdateAttendanceTabMutation } from "../features/attendanceTab/studentAttendanceApiSlice";
-import { useNavigate, useParams } from "react-router-dom"
-import { AddIcon, BellIcon, SearchIcon } from "@chakra-ui/icons"
-import axios from "axios"
+} from "react-icons/md";
+import { useEffect, useState, useContext } from "react";
+import logo from "../images/logo.png";
+import { useSendLogoutMutation } from "../features/studentAuth/studentAuthApiSlice";
+import { useUpdateAttendanceTabMutation } from "../features/attendanceTab/studentAttendanceTabApiSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { AddIcon, BellIcon, SearchIcon } from "@chakra-ui/icons";
+import axios from "axios";
 export default function StudentLayout() {
   const [updateAttendanceTab] = useUpdateAttendanceTabMutation();
   const [attendanceCode, setAttendanceCode] = useState("");
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [student, setStudent] = useState(null);
   const { isOpen: isOpen, onOpen: onOpen, onClose: onClose } = useDisclosure();
   const fetchStudentById = async (id) => {
     try {
-      const response = await axios.get(`http://localhost:3500/students/student/${id}`);
+      const response = await axios.get(
+        `http://localhost:3500/students/student/${id}`
+      );
       console.log(response.data); // This will log the student's details
       setStudent(response.data);
     } catch (error) {
@@ -71,32 +73,28 @@ export default function StudentLayout() {
     if (id) {
       fetchStudentById(id);
     }
-  }, [id]); 
-  const [sendLogout, {
-    isSuccess,
-    isError,
-    error
-}] = useSendLogoutMutation()
+  }, [id]);
+  const [sendLogout, { isSuccess, isError, error }] = useSendLogoutMutation();
 
-useEffect(() => {
-    if (isSuccess) navigate('/')
-}, [isSuccess, navigate])
-const handleSubmit = async (e) => {
-  console.log("submitted", attendanceCode, id);
-  if (attendanceCode && id) {
-    try {
-      await updateAttendanceTab({id, attendanceCode });
-      navigate(`/student/${id}`);
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (isSuccess) navigate("/");
+  }, [isSuccess, navigate]);
+  const handleSubmit = async (e) => {
+    console.log("submitted", attendanceCode, id);
+    if (attendanceCode && id) {
+      try {
+        await updateAttendanceTab({ id, attendanceCode });
+        navigate(`/student/${id}`);
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
-}
+  };
 
-useEffect(() => {
-  document.body.classList.add("bg-color")
-}, [])
-const [display, setDisplay] = useState("none")
+  useEffect(() => {
+    document.body.classList.add("bg-color");
+  }, []);
+  const [display, setDisplay] = useState("none");
 
   return (
     <div>
@@ -122,7 +120,7 @@ const [display, setDisplay] = useState("none")
                 <Accordion allowToggle>
                   <AccordionItem borderColor={"transparent"}>
                     <AccordionButton _expanded={{ borderColor: "white" }}>
-                      <Box as='span' flex={"1"} textAlign={"left"}>
+                      <Box as="span" flex={"1"} textAlign={"left"}>
                         <ListItem fontWeight={"bold"} cursor={"pointer"}>
                           <ListIcon as={MdBook} boxSize={5} />
                           Courses
@@ -146,7 +144,7 @@ const [display, setDisplay] = useState("none")
                   Support and Help
                 </ListItem>
                 <ListItem>
-                  <Button colorScheme='red' p={"10px"} w={"75%"}>
+                  <Button colorScheme="red" p={"10px"} w={"75%"}>
                     Logout
                   </Button>
                 </ListItem>
@@ -181,7 +179,7 @@ const [display, setDisplay] = useState("none")
                 <Accordion allowToggle>
                   <AccordionItem borderColor={"transparent"}>
                     <AccordionButton _expanded={{ borderColor: "white" }}>
-                      <Box as='span' flex={"1"} textAlign={"left"}>
+                      <Box as="span" flex={"1"} textAlign={"left"}>
                         <ListItem fontWeight={"bold"} cursor={"pointer"}>
                           <ListIcon as={MdBook} boxSize={5} />
                           Courses
@@ -205,7 +203,12 @@ const [display, setDisplay] = useState("none")
                   Support and Help
                 </ListItem>
                 <ListItem>
-                  <Button colorScheme='red' p={"10px"} w={"75%"}  onClick={sendLogout}>
+                  <Button
+                    colorScheme="red"
+                    p={"10px"}
+                    w={"75%"}
+                    onClick={sendLogout}
+                  >
                     Logout
                   </Button>
                 </ListItem>
@@ -222,20 +225,20 @@ const [display, setDisplay] = useState("none")
             >
               <Hamburger
                 rounded
-                direction='right'
+                direction="right"
                 duration={0.5}
                 onToggle={(toggled) => {
                   if (toggled) {
-                    setDisplay("grid")
+                    setDisplay("grid");
                   } else {
-                    setDisplay("none")
+                    setDisplay("none");
                   }
                 }}
               />
             </Box>
 
             <Box ml={{ base: "10px", lg: "20px", xl: "25px" }}>
-              <img src={logo} alt='logo' />
+              <img src={logo} alt="logo" />
             </Box>
             <Spacer />
             <Flex
@@ -245,19 +248,19 @@ const [display, setDisplay] = useState("none")
             >
               <IconButton
                 variant={"ghost"}
-                colorScheme='white'
+                colorScheme="white"
                 icon={<BellIcon />}
               />
               <Tooltip
                 hasArrow
-                label='Join attendance'
+                label="Join attendance"
                 bg={"white"}
                 color={"black"}
                 p={"10px"}
               >
                 <IconButton
                   variant={"ghost"}
-                  colorScheme='white'
+                  colorScheme="white"
                   icon={<AddIcon />}
                   onClick={onOpen}
                 />
@@ -282,19 +285,34 @@ const [display, setDisplay] = useState("none")
           <ModalHeader>Join an attendance</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Text mb={'10px'}>Ask your lecturer for the course attendance tab, then enter it below:</Text>
-            <Input mb={'10px'} placeholder="attendance code" value={attendanceCode} onChange={(e) => setAttendanceCode(e.target.value)}/>
-            <Text>If you have an issue joining the attendance, go to the <Link to="/about" style={{color:'blue'}}>Help guide</Link></Text>
+            <Text mb={"10px"}>
+              Ask your lecturer for the course attendance tab, then enter it
+              below:
+            </Text>
+            <Input
+              mb={"10px"}
+              placeholder="attendance code"
+              value={attendanceCode}
+              onChange={(e) => setAttendanceCode(e.target.value)}
+            />
+            <Text>
+              If you have an issue joining the attendance, go to the{" "}
+              <Link to="/about" style={{ color: "blue" }}>
+                Help guide
+              </Link>
+            </Text>
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
               Submit
             </Button>
-            <Button variant="ghost" onClick={onClose}>Close</Button>
+            <Button variant="ghost" onClick={onClose}>
+              Close
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
     </div>
-  )
+  );
 }
