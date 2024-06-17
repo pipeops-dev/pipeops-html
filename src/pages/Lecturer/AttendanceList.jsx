@@ -60,7 +60,10 @@ export default function AttendanceList() {
             mt={"30px"}
           >
             {attendances &&
-              attendances.ids.map((id, index) => {
+              attendances.ids
+              .slice() 
+              .sort((a, b) => new Date(attendances.entities[b].createdAt) - new Date(attendances.entities[a].createdAt))
+              .map((id, index) => {
                 const attendance = attendances.entities[id];
 
                 return (

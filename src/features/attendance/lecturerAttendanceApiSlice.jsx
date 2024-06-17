@@ -1,7 +1,9 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { lecturerApiSlice } from "../../app/api/lecturerApiSlice";
 
-const lecturerAttendanceAdapter = createEntityAdapter({});
+const lecturerAttendanceAdapter = createEntityAdapter({
+    
+});
 
 const initialState = lecturerAttendanceAdapter.getInitialState();
 

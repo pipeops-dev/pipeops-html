@@ -33,6 +33,7 @@ import {
   PinInputField,
   Input,
   useDisclosure,
+  useToast
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -58,6 +59,7 @@ export default function StudentHome() {
     onOpen: onAttendance,
     onClose: closeAttendance,
   } = useDisclosure();
+  const toast = useToast();
   const { isOpen: isPin, onOpen: onPin, onClose: closePin } = useDisclosure();
   const [name, setName] = useState("");
   const [matricNumber, setMatricNumber] = useState("");
@@ -87,10 +89,13 @@ export default function StudentHome() {
     document.body.classList.add("bg-color");
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (attendanceId) => {
+    //if(isPinSuccess){
+      //updateAttendance({ attendanceId, studentId, name, matricNumber, department });
+      //console.log({ attendanceId, studentId, name, matricNumber, department });
+    //}
     // Handle form submission logic here
-    console.log({ name, matricNumber, department });
+    
     closeAttendance();
     onPin(); // Close modal after form submission
   };
@@ -108,6 +113,20 @@ export default function StudentHome() {
       console.error("Error verifying pin", error);
     }
   };
+
+
+  useEffect(() => {
+    if (isPinSuccess) {
+      toast({
+        title: "Pin Verified",
+        description: "You can now submit your attendance",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  }
+  , [isPinSuccess]);
   return (
     <div>
       {isLoading ? (
@@ -174,7 +193,9 @@ export default function StudentHome() {
                       <ModalContent>
                         <ModalHeader>Student Information</ModalHeader>
                         <ModalCloseButton />
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={(e) => {
+                                e.preventDefault();
+                                handleSubmit(course.attendanceId)}}>
                           <ModalBody>
                             <FormControl isRequired>
                               <FormLabel>Name</FormLabel>
