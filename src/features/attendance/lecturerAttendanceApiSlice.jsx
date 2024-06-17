@@ -11,10 +11,12 @@ const initialState = lecturerAttendanceAdapter.getInitialState()
 export const lecturerAttendanceApiSlice = lecturerApiSlice.injectEndpoints({
     endpoints: builder => ({
         getLecturerAttendance: builder.query({
-            query: ({lecturerId, id}) => '/attendance',
-            validateStatus: (response, result) => {
-                return response.status === 200 && !result.isError
-            },
+            query: ({attendanceTabId,lecturerId}) => ({
+                url: `/attendance/${attendanceTabId}/${lecturerId}`,
+                validateStatus: (response, result) => {
+                    return response.status === 200 && !result.isError
+                },
+            }),
             transformResponse: responseData => {
                 const loadedLecturerAttendance = responseData.map(attendance => {
                     attendance.id = attendance._id

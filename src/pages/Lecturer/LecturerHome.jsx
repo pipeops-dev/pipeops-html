@@ -53,7 +53,6 @@ export default function LecturerHome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { lecturerId } = useParams();
   const navigate = useNavigate();
-  const [attendanceId, setAttendanceId] = useState("");
   const toast = useToast();
   const {
     data: attendanceTabs,

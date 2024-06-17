@@ -88,7 +88,7 @@ const router = createBrowserRouter(
       >
         <Route index element={<LecturerHome />} />
         <Route path="new" element={<LecturerMain />} />
-        <Route path='attendance/:attendanceId' element={<AttendanceList/>}/>
+        <Route path='attendance/:attendanceTabId' element={<AttendanceList/>}/>
       </Route>
       </Route>
       <Route element={<PersistStudentLogin/>}>
