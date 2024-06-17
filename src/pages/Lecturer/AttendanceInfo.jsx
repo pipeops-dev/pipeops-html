@@ -10,15 +10,35 @@ import {
   Spinner,
   Center,
   Button,
-  TableContainer
+  TableContainer,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  FormControl,
+  FormLabel,
+  Input,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Icon } from "@chakra-ui/icons";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 export default function AttendanceInfo() {
+    const {
+        isOpen,
+        onOpen,
+        onClose
+      } = useDisclosure();
+     
+      const [name, setName] = useState("");
+      const [matricNumber, setMatricNumber] = useState("");
+      const [department, setDepartment] = useState("");
   const [attendance, setAttendance] = useState(null);
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -50,6 +70,12 @@ export default function AttendanceInfo() {
       </Center>
     );
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({ name, matricNumber, department });
+    onClose();
+  };
 
   return (
     <div>
@@ -83,6 +109,57 @@ export default function AttendanceInfo() {
         </Tbody>
       </Table>
       </TableContainer>
+      <Button colorScheme="green" m='1rem'><Icon as={MdEdit } onClick={onOpen} />
+        Add</Button>
+        <Modal isOpen={isOpen} onClose={onClose}>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Student Information</ModalHeader>
+                <ModalCloseButton />
+                <form onSubmit={handleSubmit}>
+                  <ModalBody>
+                    <FormControl isRequired>
+                      <FormLabel>Name</FormLabel>
+                      <Input
+                        value={name}
+                        placeholder="e.g John Doe"
+                        autoComplete="off"
+                        onChange={(e) => setName(e.target.value)}
+                      />
+                    </FormControl>
+
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>MatricNumber Number</FormLabel>
+                      <Input
+                        value={matricNumber}
+                        placeholder="e.g 00000"
+                        autoComplete="off"
+                        onChange={(e) => setMatricNumber(e.target.value)}
+                      />
+                    </FormControl>
+
+                    <FormControl mt={4} isRequired>
+                      <FormLabel>Department</FormLabel>
+                      <Input
+                        value={department}
+                        placeholder="e.g Your Department"
+                        autoComplete="off"
+                        onChange={(e) => setDepartment(e.target.value)}
+                      />
+                    </FormControl>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button colorScheme="blue" mr={3} type="submit">
+                      Submit
+                    </Button>
+                    <Button variant="ghost" onClick={onClose}>
+                      Cancel
+                    </Button>
+                  </ModalFooter>
+                </form>
+              </ModalContent>
+            </Modal>
     </div>
   );
 }
