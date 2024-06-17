@@ -76,7 +76,7 @@ export default function AttendanceList() {
                           "en-US",
                           {
                             year: "numeric",
-                            month: "long",
+                            month: "numeric",
                             day: "numeric",
                           }
                         )}

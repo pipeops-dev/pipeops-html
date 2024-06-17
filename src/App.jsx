@@ -47,6 +47,7 @@ import StudentHome from "./pages/student/StudentHome";
 import Demo from "./pages/Demo";
 import AttendanceForm from "./pages/student/AttendanceForm";
 import AttendanceList from "./pages/Lecturer/AttendanceList";
+import AttendanceInfo from "./pages/Lecturer/AttendanceInfo";
 
 
 const router = createBrowserRouter(
@@ -89,6 +90,7 @@ const router = createBrowserRouter(
         <Route index element={<LecturerHome />} />
         <Route path="new" element={<LecturerMain />} />
         <Route path='attendance/:attendanceTabId' element={<AttendanceList/>}/>
+        <Route path="attendnace/:id" element={<AttendanceInfo/>}/>
       </Route>
       </Route>
       <Route element={<PersistStudentLogin/>}>
