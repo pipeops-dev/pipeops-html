@@ -58,10 +58,10 @@ export const lecturerAttendanceApiSlice = lecturerApiSlice.injectEndpoints({
             ]
         }),
         deleteAttendance: builder.mutation({
-            query: ({ id }) => ({
+            query: ({ attendanceId, studentId }) => ({
                 url: `/lecturerAttendance`,
                 method: 'DELETE',
-                body: { id }
+                body: { attendanceId, studentId }
             }),
             invalidatesTags: (result, error, arg) => [
                 { type: 'Attendance', id: arg.id }

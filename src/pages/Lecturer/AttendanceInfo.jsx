@@ -29,10 +29,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useUpdateAttendanceMutation } from "../../features/attendance/lecturerAttendanceApiSlice";
+import { useDeleteAttendanceMutation } from "../../features/attendance/lecturerAttendanceApiSlice";
 
 export default function AttendanceInfo() {
   const [updateAttendance, { isLoading, isSuccess }] =
     useUpdateAttendanceMutation();
+  const [deleteAttendance] = useDeleteAttendanceMutation();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [name, setName] = useState("");
@@ -64,6 +66,12 @@ export default function AttendanceInfo() {
     }
   }, [id]);
 
+  useEffect(() => {
+    if (isSuccess) {
+      fetchAttendanceById(id);
+    }
+  }, [id, isSuccess]);
+
   if (!attendance) {
     return (
       <Center height="100vh">
@@ -79,11 +87,7 @@ export default function AttendanceInfo() {
     );
   }
 
-  useEffect(() => {
-    if (isSuccess) {
-      fetchAttendanceById(id);
-    }
-  }, [id, isSuccess]);
+  
   const handleSubmit = async () => {
     try {
       await updateAttendance({
