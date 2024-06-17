@@ -34,7 +34,7 @@ import { useDeleteAttendanceMutation } from "../../features/attendance/lecturerA
 export default function AttendanceInfo() {
   const [updateAttendance, { isLoading, isSuccess }] =
     useUpdateAttendanceMutation();
-  const [deleteAttendance] = useDeleteAttendanceMutation();
+  const [deleteAttendance,{isSuccess: isDelSuccess}] = useDeleteAttendanceMutation();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [name, setName] = useState("");
@@ -67,10 +67,10 @@ export default function AttendanceInfo() {
   }, [id]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess || isDelSuccess) {
       fetchAttendanceById(id);
     }
-  }, [id, isSuccess]);
+  }, [id, isSuccess, isDelSuccess]);
 
   if (!attendance) {
     return (
@@ -86,6 +86,14 @@ export default function AttendanceInfo() {
       </Center>
     );
   }
+
+  const handleDelete = async (student_id) => {
+    try {
+      await deleteAttendance({ attendanceId: id, studentId: student_id });
+    } catch (error) {
+      console.log("Error deleting student", error);
+    }
+  };
 
   
   const handleSubmit = async () => {
