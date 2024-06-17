@@ -60,6 +60,16 @@ export const studentsApiSlice = studentApiSlice.injectEndpoints({
         { type: "Student", id: arg.id },
       ],
     }),
+    verifyPin: builder.mutation({
+      query: ({id, pin}) => ({
+        url: "/students/verify-pin",
+        method: "POST",
+        body: { id, pin },
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "Student", id: arg.id },
+      ],
+    }),
     deleteStudent: builder.mutation({
       query: ({ id }) => ({
         url: `/students`,
@@ -79,6 +89,7 @@ export const {
   useUpdateStudentMutation,
   useDeleteStudentMutation,
   useUpdatePinMutation,
+  useVerifyPinMutation,
 } = studentsApiSlice;
 
 // returns the query result object
