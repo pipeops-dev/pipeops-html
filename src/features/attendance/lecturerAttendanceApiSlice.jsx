@@ -47,7 +47,7 @@ export const lecturerAttendanceApiSlice = lecturerApiSlice.injectEndpoints({
         }),
         updateAttendance: builder.mutation({
             query: initialAttendanceData => ({
-                url: '/lecturerAttendance',
+                url: '/attendance/student',
                 method: 'PATCH',
                 body: {
                     ...initialAttendanceData,
