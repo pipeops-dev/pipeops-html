@@ -77,10 +77,29 @@ export default function LecturerHome() {
     document.body.classList.add("bg-color");
   }, []);
 
-  const handleCardClick = async (id) => {
-    console.log(id);
+  const handleCardClick = async (course) => {
     try {
-      await toggleOpenAttendanceTab({ id });
+      await toggleOpenAttendanceTab({ id:course.id });
+      if (course.Open) {
+        toast({
+          position: "top-right",
+          title: 'Course Closed',
+          description: `${course.courseCode} is closed.`,
+          status: 'warning',
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+        position: "top-right",
+          title: 'Course Open',
+          description: `${course.courseCode} is open.`,
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        });
+        
+      }
     } catch (error) {
       console.log(error);
     }
@@ -169,7 +188,7 @@ export default function LecturerHome() {
                         <Spacer />
                         <HStack>
                           <IconButton
-                            onClick={() => handleCardClick(id)}
+                            onClick={() => handleCardClick(course)}
                             variant={"ghost"}
                             icon={
                               course.Open ? (
