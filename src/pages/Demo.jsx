@@ -1,11 +1,12 @@
 import React from 'react';
-import { Flex, Box, Text, FormControl, FormLabel, Input, Textarea, Button, Divider, Icon, HStack } from '@chakra-ui/react';
+import { Flex, Box, Text, FormControl, FormLabel, Input, Textarea, Button, Divider, Icon, useToast} from '@chakra-ui/react';
 import logo from '../images/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { MdPlayCircleOutline } from "react-icons/md";
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 export default function Demo() {
+  const toast = useToast();
   const [name, setName] = useState('');
   const [telephone, setTelephone] = useState('');
   const [email, setEmail] = useState('');
@@ -18,27 +19,39 @@ export default function Demo() {
 
 const createDemo = async (demoData) => {
   try {
-    const response = await axios.post('http://yourapi.com/demos', demoData);
+    const response = await axios.post('http://localhost:3500/demo', demoData);
     console.log('Demo created successfully:', response.data);
-    return response.data;
   } catch (error) {
     console.error('Error creating demo:', error.response.data);
     throw error;
   }
 };
 
-// Example usage
-const demoData = {
-  name,
-  email,
-  telephone,
-  message
-};
+  const handleSubmit = (e) => {
+  e.preventDefault();
+  const demoData = {
+    name,
+    email,
+    telephone,
+    message
+  };
+  createDemo(demoData).then(() => {
+    toast({
+      position: 'top-right',
+      title: 'Demo Request Successful',
+      description: 'We will get back to you shortly',
+      status: 'success',
+      duration: 5000,
+      isClosable: true
+    });
+  }).catch(error => {
+    console.log('Error creating demo')
+  });
+}
 
-useEffect(() => {
-  if (!demoData) return;
-  createDemo(demoData);
-}, [demoData]);
+
+
+
 
   return (
     <>
@@ -65,13 +78,13 @@ useEffect(() => {
           <FormLabel>Name:</FormLabel>
           <Input placeholder="Your Name" value={name} onChange={(e) => setName(e.target.value)}/>
           <FormLabel mt={4}>Telephone:</FormLabel>
-          <Input placeholder="Your Telephone Number" value={telephone} onChange={(e) => setTelelphone(e.target.value)} />
+          <Input placeholder="Your Telephone Number" value={telephone} onChange={(e) => setTelephone(e.target.value)} />
           <FormLabel mt={4}>Email:</FormLabel>
           <Input value={email} placeholder="Your Email" onChange={(e) => setEmail(e.target.value)} />
           <FormLabel mt={4}>Message:</FormLabel>
           <Textarea placeholder="Do you want to say anything to us?" value={message} onChange={(e) => setMessage(e.target.value)}/>
           <Flex justify="center" mt={4}>
-              <Button width="full" colorScheme="blue">Get Demo</Button>
+              <Button width="full" colorScheme="blue" type='subit' onClick={handleSubmit}>Get Demo</Button>
             </Flex>
         </FormControl>
       </Box>
