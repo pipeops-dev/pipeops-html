@@ -36,6 +36,11 @@ const createDemo = async (demoData) => {
     message
   };
   createDemo(demoData).then(() => {
+    setName('');
+    setEmail('');
+    setTelephone('');
+    setMessage('');
+    navigate('/');
     toast({
       position: 'top-right',
       title: 'Demo Request Successful',
