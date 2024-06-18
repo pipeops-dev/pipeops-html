@@ -50,7 +50,7 @@ import {
 } from "react-icons/md";
 
 export default function StudentHome() {
-  const [verifyPin, { isLoading: isLoadingPin, isSuccess: isPinSuccess }] =
+  const [verifyPin, { isLoading: isLoadingPin, isSuccess: isPinSuccess, isError: isPinError }] =
     useVerifyPinMutation();
     const [updateAttendance, { isLoading: isLoadingAttendance, isSuccess: isAttendanceSuccess }] =
     useUpdateAttendanceMutation();
@@ -90,25 +90,26 @@ export default function StudentHome() {
   }, []);
 
   const handleSubmit = (attendanceId) => {
-    //if(isPinSuccess){
-      //updateAttendance({ attendanceId, studentId, name, matricNumber, department });
-      //console.log({ attendanceId, studentId, name, matricNumber, department });
-    //}
+    if(isPinSuccess){
+      updateAttendance({ attendanceId, studentId, name, matricNumber, department });
+      console.log({ attendanceId, studentId, name, matricNumber, department });
+    }
     // Handle form submission logic here
     
     closeAttendance();
     onPin(); // Close modal after form submission
   };
-  const handleSubmitPin = () => {
+  const handleSubmitPin = async () => {
     try {
-      verifyPin({ id: studentId, pin });
+      await verifyPin({ id: studentId, pin });
       setPin("");
-      //setDepartment("");
-      //setName("");
-      //setMatricNumber("");
+      setDepartment("");
+      setName("");
+      setMatricNumber("");
       // Handle form submission logic here
       console.log({ pin });
       closePin(); // Close modal after form submission
+      console.log();
     } catch (error) {
       console.error("Error verifying pin", error);
     }
@@ -208,7 +209,7 @@ export default function StudentHome() {
                             </FormControl>
 
                             <FormControl mt={4} isRequired>
-                              <FormLabel>MatricNumber Number</FormLabel>
+                              <FormLabel>Matric number</FormLabel>
                               <Input
                                 value={matricNumber}
                                 placeholder="e.g 00000"
@@ -257,13 +258,23 @@ export default function StudentHome() {
                           </HStack>
                         </ModalBody>
                         <ModalFooter>
+                          {!isLoadingPin ? 
                           <Button
                             colorScheme="blue"
                             mr={3}
                             onClick={handleSubmitPin}
                           >
                             Submit
-                          </Button>
+                          </Button> : 
+                          <Button
+                          type="submit"
+                          isLoading
+                          colorScheme="teal"
+                          variant="solid"
+                      
+                        ></Button>
+                          }
+                          
                         </ModalFooter>
                       </ModalContent>
                     </Modal>
