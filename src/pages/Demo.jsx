@@ -87,7 +87,7 @@ export default function Demo() {
 
   return (
     <>
-      <Box backgroundColor={"white"} w={"100vw"} h={"100vh"}>
+      <Box backgroundColor={"white"} w={"100vw"}>
         <Box py={"1.5rem"} px={"1.5rem"} onClick={reRoute}>
           <img src={logo} alt="logo" />
         </Box>
