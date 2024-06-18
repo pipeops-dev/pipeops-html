@@ -14,6 +14,32 @@ export default function Demo() {
   const reRoute = () => {
     navigate('/');
   }
+
+
+const createDemo = async (demoData) => {
+  try {
+    const response = await axios.post('http://yourapi.com/demos', demoData);
+    console.log('Demo created successfully:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating demo:', error.response.data);
+    throw error;
+  }
+};
+
+// Example usage
+const demoData = {
+  name,
+  email,
+  telephone,
+  message
+};
+
+useEffect(() => {
+  if (!demoData) return;
+  createDemo(demoData);
+}, [demoData]);
+
   return (
     <>
     <Box backgroundColor={'white'} w={'100vw'} h={'100vh'}>
