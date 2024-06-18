@@ -60,7 +60,7 @@ export default function StudentLayout() {
   const fetchStudentById = async (id) => {
     try {
       const response = await axios.get(
-        `http://localhost:3500/students/student/${id}`
+        `https://sams-backend-1.onrender.com/students/student/${id}`
       );
       console.log(response.data); // This will log the student's details
       setStudent(response.data);

@@ -147,7 +147,7 @@ export default function LecturerHome() {
 
                 return (
                   <div key={index}>
-                    <Card variant={"elevated"}>
+                    <Card variant={"elevated"} h={'full'}>
                       <CardHeader>
                         <Flex>
                           <Heading fontSize={"2rem"} pl={"10px"} mt={"15px"}>

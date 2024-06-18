@@ -166,6 +166,7 @@ export default function StudentHome() {
                       variant={"elevated"}
                       backgroundColor={course.Open ? "white" : "#D3D3D3"}
                       onClick={course.Open ? onAttendance : undefined}
+                      h={'full'}
                     >
                       <CardHeader>
                         <Flex>
