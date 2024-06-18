@@ -95,8 +95,6 @@ export default function StudentHome() {
       updateAttendance({ attendanceId, studentId, name, matricNumber, department });
       console.log({ attendanceId, studentId, name, matricNumber, department });
     }
-    // Handle form submission logic here
-    
     closeAttendance();
     onPin(); // Close modal after form submission
   };
