@@ -50,7 +50,7 @@ import {
 } from "react-icons/md";
 
 export default function StudentHome() {
-  const [verifyPin, { isLoading: isLoadingPin, isSuccess: isPinSuccess, isError: isPinError }] =
+  const [verifyPin, { isLoading: isLoadingPin, isSuccess: isPinSuccess }] =
     useVerifyPinMutation();
     const [updateAttendance, { isLoading: isLoadingAttendance, isSuccess: isAttendanceSuccess }] =
     useUpdateAttendanceMutation();
@@ -67,6 +67,7 @@ export default function StudentHome() {
   const [pin, setPin] = useState("");
   const { id } = useParams();
   const [studentId, setStudentId] = useState(id);
+  const [errMsg, setErrMsg] = useState("");
   const navigate = useNavigate();
   const {
     data: attendanceTabs,
@@ -110,8 +111,23 @@ export default function StudentHome() {
       console.log({ pin });
       closePin(); // Close modal after form submission
       console.log();
-    } catch (error) {
-      console.error("Error verifying pin", error);
+    } catch (err) {
+      if (!err.status) {
+        setErrMsg("No Server Response");
+      } else if (err.status === 400) {
+        setErrMsg("INVALID PIN");
+      } else {
+        setErrMsg(err.data?.message);
+      }
+
+      toast({
+        position: "top",
+        title: "Auuchh!",
+        description: errMsg,
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
 
