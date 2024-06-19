@@ -28,8 +28,8 @@ import { useAddNewAttendanceTabMutation } from "../../features/attendanceTab/lec
 export default function LecturerMain() {
   const [addNewAttendanceTab] = useAddNewAttendanceTabMutation();
   const navigate = useNavigate();
-  const { id } = useParams();
-  const [lecturerId, setLecturerId] = useState(id);
+  const { lecturerId } = useParams();
+  
   const [courseCode, setCourseCode] = useState("");
   const [courseName, setCourseName] = useState("");
   const toast = useToast();
@@ -54,7 +54,7 @@ export default function LecturerMain() {
         setCourseCode("");
         setCourseName("");
         onCreateClose();
-        navigate(`/lecturer/${id}`);
+        navigate(`/lecturer/${lecturerId}`);
         toast({
           position: "top",
           title: "Attendance tab created.",
