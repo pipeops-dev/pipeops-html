@@ -4,6 +4,7 @@ import logo from "../../assets/logo/logo-aishub-full.png";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import LanguageRoundedIcon from "@mui/icons-material/LanguageRounded";
 import ProfileMenu from "./ProfileMenu";
+import MobileSearchBar from "./MobileNavigation/MobileSearchBar";
 
 function Header() {
 	return (
@@ -18,7 +19,7 @@ function Header() {
 				</div>
 			</div>
 			<div className="profile-container">
-				<div className="aishub-your-home">aishub your home</div>
+				<div className="aishub-your-home">Aishub your home</div>
 				<div className="aishub-your-home">
 					<LanguageRoundedIcon sx={{ fontSize: "1.4rem" }} />
 				</div>
@@ -26,6 +27,7 @@ function Header() {
 					<ProfileMenu />
 				</div>
 			</div>
+			<MobileSearchBar/>
 		</div>
 	);
 }
