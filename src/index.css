@@ -1,0 +1,20 @@
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+  --black: #000;
+  --grey: #ddd;
+  --white: #fff;
+  --font-grey: #717171;
+  --theme: #ff385c;
+  --light-grey:#f7f7f7;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+  margin: 0;
+}
