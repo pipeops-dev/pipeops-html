@@ -143,6 +143,7 @@ export default function Student() {
         }
 
         toast({
+          position:'top-right',
           title: "Auuchh!",
           description: errMsg,
           status: "error",

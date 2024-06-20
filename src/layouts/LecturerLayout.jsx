@@ -219,40 +219,21 @@ export default function LecturerLayout() {
                   </ListItem>
                 </Link>
                 
-                  {Array.isArray(attendanceTabs) && attendanceTabs.map((tab, index) => (
-                    <Accordion allowToggle>
-                    <AccordionItem key={index} borderColor={"transparent"}>
-                      <AccordionButton _expanded={{ borderColor: "white" }}>
-                        <Box as="span" flex={"1"} textAlign={"left"}>
+                 
+                    
                           <ListItem fontWeight={"bold"} cursor={"pointer"}>
                             <ListIcon as={MdBook} boxSize={5} />
                             Course
                           </ListItem>
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                      <AccordionPanel>{tab.courseCode}</AccordionPanel>
-                    </AccordionItem>
-                    </Accordion>
-                  ))}
+                       
+        
                 
-                <Accordion allowToggle>
-                  <AccordionItem borderColor={"transparent"}>
-                    <AccordionButton _expanded={{ borderColor: "white" }}>
-                      <Box as="span" flex={"1"} textAlign={"left"}>
+                
                         <ListItem fontWeight={"bold"} cursor={"pointer"}>
                           <ListIcon as={MdAnalytics} boxSize={5} />
                           Insight
                         </ListItem>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel>TME 221</AccordionPanel>
-                    <AccordionPanel>TME 231</AccordionPanel>
-                    <AccordionPanel>MAT 224</AccordionPanel>
-                    <AccordionPanel>GNS 210</AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
+                      
 
                 <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
                   <ListIcon as={MdSettings} boxSize={5} />
@@ -278,7 +259,7 @@ export default function LecturerLayout() {
         </Box>
         <Box
           display={display}
-          pos={"absolute"}
+          pos={"fixed"}
           zIndex={1000}
           bgColor={"white"}
           w={"250px"}
@@ -302,40 +283,17 @@ export default function LecturerLayout() {
                     Home
                   </ListItem>
                 </Link>
-                <Accordion allowToggle>
-                  <AccordionItem borderColor={"transparent"}>
-                    <AccordionButton _expanded={{ borderColor: "white" }}>
-                      <Box as="span" flex={"1"} textAlign={"left"}>
+              
                         <ListItem fontWeight={"bold"} cursor={"pointer"}>
                           <ListIcon as={MdBook} boxSize={5} />
                           Courses
                         </ListItem>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel>TME 221</AccordionPanel>
-                    <AccordionPanel>TME 231</AccordionPanel>
-                    <AccordionPanel>MAT 224</AccordionPanel>
-                    <AccordionPanel>GNS 210</AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
-                <Accordion allowToggle>
-                  <AccordionItem borderColor={"transparent"}>
-                    <AccordionButton _expanded={{ borderColor: "white" }}>
-                      <Box as="span" flex={"1"} textAlign={"left"}>
+               
                         <ListItem fontWeight={"bold"} cursor={"pointer"}>
                           <ListIcon as={MdAnalytics} boxSize={5} />
                           Insight
                         </ListItem>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel>TME 221</AccordionPanel>
-                    <AccordionPanel>TME 231</AccordionPanel>
-                    <AccordionPanel>MAT 224</AccordionPanel>
-                    <AccordionPanel>GNS 210</AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
+                 
 
                 <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
                   <ListIcon as={MdSettings} boxSize={5} />
@@ -358,7 +316,7 @@ export default function LecturerLayout() {
           <Flex borderBottom={"1px solid grey"} p={"10px"} align={"center"}>
             <Box
               display={{ base: "flex", md: "flex", lg: "none", xl: "none" }}
-              mr={{ base: "10px" }}
+              //mr={{ base: "10px" }}
               zIndex={2000}
             >
               <Hamburger
@@ -383,11 +341,7 @@ export default function LecturerLayout() {
               gap={{ base: 3, lg: 10, xl: 10 }}
               mr={{ base: "10px", md: "50px", lg: "130px", xl: "150px" }}
             >
-              <IconButton
-                variant={"ghost"}
-                colorScheme="white"
-                icon={<SearchIcon />}
-              />
+              
               <Menu>
                 <MenuButton>
                   <IconButton

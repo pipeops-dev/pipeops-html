@@ -19,21 +19,7 @@ import {
   HStack,
   Spinner,
   Center,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  FormControl,
-  FormLabel,
-  PinInput,
-  PinInputField,
-  Input,
-  useDisclosure,
-  useToast
+  
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
@@ -50,21 +36,6 @@ import {
 } from "react-icons/md";
 
 export default function StudentHome() {
-  const [verifyPin, { isLoading: isLoadingPin, isSuccess: isPinSuccess }] =
-    useVerifyPinMutation();
-    const [updateAttendance, { isLoading: isLoadingAttendance, isSuccess: isAttendanceSuccess }] =
-    useUpdateAttendanceMutation();
-  const {
-    isOpen: isAttendance,
-    onOpen: onAttendance,
-    onClose: closeAttendance,
-  } = useDisclosure();
-  const toast = useToast();
-  const { isOpen: isPin, onOpen: onPin, onClose: closePin } = useDisclosure();
-  const [name, setName] = useState("");
-  const [matricNumber, setMatricNumber] = useState("");
-  const [department, setDepartment] = useState("");
-  const [pin, setPin] = useState("");
   const { id } = useParams();
   const [studentId, setStudentId] = useState(id);
   const [errMsg, setErrMsg] = useState("");
@@ -74,11 +45,12 @@ export default function StudentHome() {
     isLoading,
     isError,
   } = useGetAttendanceTabQuery(studentId, {
-    pollingInterval: 15000,
+    pollingInterval: 5000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
 
+  console.log(attendanceTabs)
 
   useEffect(() => {
     if (!isLoading && (!attendanceTabs || attendanceTabs.ids.length === 0)) {
@@ -90,58 +62,15 @@ export default function StudentHome() {
     document.body.classList.add("bg-color");
   }, []);
 
-  const handleSubmit = (attendanceId) => {
-    if(isPinSuccess){
-      updateAttendance({ attendanceId, studentId, name, matricNumber, department });
-      console.log({ attendanceId, studentId, name, matricNumber, department });
-    }
-    closeAttendance();
-    onPin(); // Close modal after form submission
-  };
-  const handleSubmitPin = async () => {
-    try {
-      await verifyPin({ id: studentId, pin });
-      setPin("");
-      setDepartment("");
-      setName("");
-      setMatricNumber("");
-      // Handle form submission logic here
-      console.log({ pin });
-      closePin(); // Close modal after form submission
-      console.log();
-    } catch (err) {
-      if (!err.status) {
-        setErrMsg("No Server Response");
-      } else if (err.status === 400) {
-        setErrMsg("INVALID PIN");
-      } else {
-        setErrMsg(err.data?.message);
-      }
+  const handleSubmit = (course) => {
+    console.log(course.attendanceId)
 
-      toast({
-        position: "top",
-        title: "Auuchh!",
-        description: errMsg,
-        status: "warning",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  };
+    navigate(`/student/${id}/attendance/${course.attendanceId}`)
+    
+};
 
 
-  useEffect(() => {
-    if (isPinSuccess) {
-      toast({
-        title: "Pin Verified",
-        description: "You can now submit your attendance",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-    }
-  }
-  , [isPinSuccess]);
+ 
   return (
     <div>
       {isLoading ? (
@@ -165,8 +94,9 @@ export default function StudentHome() {
                     <Card
                       variant={"elevated"}
                       backgroundColor={course.Open ? "white" : "#D3D3D3"}
-                      onClick={course.Open ? onAttendance : undefined}
-                      h={'full'}
+                      onClick={course.Open ? () => handleSubmit(course) : undefined}
+                      //h={'full'}
+                      mb={5}
                     >
                       <CardHeader>
                         <Flex>
@@ -181,7 +111,7 @@ export default function StudentHome() {
                       </CardBody>
                       <Divider />
                       <CardFooter>
-                        <Text fontSize={"1.3rem"}>
+                        <Text fontSize={{base:"1rem", md:'1.3rem', lg:'1.4rem'}}>
                           LECTURER-IN-CHARGE: {course.lecturerName}
                         </Text>
                         <Spacer />
@@ -200,99 +130,6 @@ export default function StudentHome() {
                         </HStack>
                       </CardFooter>
                     </Card>
-                    <Modal
-                      isOpen={isAttendance}
-                      onClose={closeAttendance}
-                      isCentered
-                    >
-                      <ModalOverlay />
-                      <ModalContent>
-                        <ModalHeader>Student Information</ModalHeader>
-                        <ModalCloseButton />
-                        <form onSubmit={(e) => {
-                                e.preventDefault();
-                                handleSubmit(course.attendanceId)}}>
-                          <ModalBody>
-                            <FormControl isRequired>
-                              <FormLabel>Name</FormLabel>
-                              <Input
-                                value={name}
-                                placeholder="e.g John Doe"
-                                autoComplete="off"
-                                onChange={(e) => setName(e.target.value)}
-                              />
-                            </FormControl>
-
-                            <FormControl mt={4} isRequired>
-                              <FormLabel>Matric number</FormLabel>
-                              <Input
-                                value={matricNumber}
-                                placeholder="e.g 00000"
-                                autoComplete="off"
-                                onChange={(e) =>
-                                  setMatricNumber(e.target.value)
-                                }
-                              />
-                            </FormControl>
-
-                            <FormControl mt={4} isRequired>
-                              <FormLabel>Department</FormLabel>
-                              <Input
-                                value={department}
-                                placeholder="e.g Your Department"
-                                autoComplete="off"
-                                onChange={(e) => setDepartment(e.target.value)}
-                              />
-                            </FormControl>
-                          </ModalBody>
-
-                          <ModalFooter>
-                            <Button colorScheme="blue" mr={3} type="submit">
-                              Submit
-                            </Button>
-                            <Button variant="ghost" onClick={closeAttendance}>
-                              Cancel
-                            </Button>
-                          </ModalFooter>
-                        </form>
-                      </ModalContent>
-                    </Modal>
-                    <Modal isOpen={isPin} onClose={closePin} isCentered>
-                      <ModalOverlay />
-                      <ModalContent>
-                        <ModalHeader>Enter Your 4-Digit Pin</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                          <HStack justify="center">
-                            <PinInput value={pin} onChange={setPin} size="lg">
-                              <PinInputField />
-                              <PinInputField />
-                              <PinInputField />
-                              <PinInputField />
-                            </PinInput>
-                          </HStack>
-                        </ModalBody>
-                        <ModalFooter>
-                          {!isLoadingPin ? 
-                          <Button
-                            colorScheme="blue"
-                            mr={3}
-                            onClick={handleSubmitPin}
-                          >
-                            Submit
-                          </Button> : 
-                          <Button
-                          type="submit"
-                          isLoading
-                          colorScheme="teal"
-                          variant="solid"
-                      
-                        ></Button>
-                          }
-                          
-                        </ModalFooter>
-                      </ModalContent>
-                    </Modal>
                   </div>
                 );
               })}

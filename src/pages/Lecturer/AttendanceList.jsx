@@ -71,12 +71,12 @@ export default function AttendanceList() {
                     <Card variant={"elevated"} onClick={() => singleAttendance(id)}>
                       <CardHeader>
                         <Flex>
-                          <Heading fontSize={"2rem"} pl={"10px"} mt={"15px"}>
+                          <Heading fontSize={{base:'1.6rem',md:'1.8rem',lg:"2rem"}} pl={"10px"} mt={"15px"}>
                             Attendance
                           </Heading>
                         </Flex>
                       </CardHeader>
-                      <CardBody fontSize={"1.6rem"}>
+                      <CardBody fontSize={{base:'1.3rem',md:'1.5rem',lg:"1.6rem"}}>
                         <Flex>
                         Created: {new Date(attendance.createdAt).toLocaleString(
                           "en-US",

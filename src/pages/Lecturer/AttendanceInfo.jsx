@@ -49,7 +49,7 @@ export default function AttendanceInfo() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://sams-backend-1.onrender.com/attendance/${id}`
+        `http://localhost:3500/attendance/${id}`
       );
       setAttendance(response.data);
     } catch (error) {

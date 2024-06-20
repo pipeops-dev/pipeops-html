@@ -51,7 +51,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AddIcon, BellIcon, SearchIcon } from "@chakra-ui/icons";
 import axios from "axios";
 export default function StudentLayout() {
-  const [updateAttendanceTab] = useUpdateAttendanceTabMutation();
+  const [updateAttendanceTab, {isLoading:isLoadingAttendanceTab, isSuccess:isSuccessAttendanceTab}] = useUpdateAttendanceTabMutation();
   const [attendanceCode, setAttendanceCode] = useState("");
   const { id } = useParams();
   const navigate = useNavigate();
@@ -62,6 +62,7 @@ export default function StudentLayout() {
       const response = await axios.get(
         `https://sams-backend-1.onrender.com/students/student/${id}`
       );
+      //https://sams-backend-1.onrender.com
       console.log(response.data); // This will log the student's details
       setStudent(response.data);
     } catch (error) {
@@ -84,13 +85,18 @@ export default function StudentLayout() {
     if (attendanceCode && id) {
       try {
         await updateAttendanceTab({ id, attendanceCode });
-        navigate(`/student/${id}`);
+        onClose()
       } catch (error) {
         console.log(error);
       }
     }
   };
-
+  useEffect(() => {
+    if(isSuccessAttendanceTab){
+      navigate(`/student/${id}`)
+      setAttendanceCode('')
+    };
+  }, [navigate, isSuccess]);
   useEffect(() => {
     document.body.classList.add("bg-color");
   }, []);
@@ -103,7 +109,7 @@ export default function StudentLayout() {
           <GridItem
             as={"aside"}
             colSpan={{ base: "0", lg: "2", xl: "1" }}
-            minHeight={"100vh"}
+            //minHeight={"100vh"}
             borderRight={"2px solid black"}
           >
             <Flex mt={"60px"} ml={"10px"}>
@@ -117,24 +123,12 @@ export default function StudentLayout() {
                   <ListIcon as={MdHome} boxSize={5} />
                   Home
                 </ListItem>
-                <Accordion allowToggle>
-                  <AccordionItem borderColor={"transparent"}>
-                    <AccordionButton _expanded={{ borderColor: "white" }}>
-                      <Box as="span" flex={"1"} textAlign={"left"}>
+                
                         <ListItem fontWeight={"bold"} cursor={"pointer"}>
                           <ListIcon as={MdBook} boxSize={5} />
                           Courses
                         </ListItem>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel>TME 221</AccordionPanel>
-                    <AccordionPanel>TME 231</AccordionPanel>
-                    <AccordionPanel>MAT 224</AccordionPanel>
-                    <AccordionPanel>GNS 210</AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
-
+                      
                 <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
                   <ListIcon as={MdSettings} boxSize={5} />
                   Setting
@@ -154,10 +148,11 @@ export default function StudentLayout() {
         </Box>
         <Box
           display={display}
-          pos={"absolute"}
+          pos={"fixed"}
           zIndex={1000}
           bgColor={"white"}
           w={"250px"}
+          h={"100vh"}
         >
           <GridItem
             as={"aside"}
@@ -176,23 +171,12 @@ export default function StudentLayout() {
                   <ListIcon as={MdHome} boxSize={5} />
                   Home
                 </ListItem>
-                <Accordion allowToggle>
-                  <AccordionItem borderColor={"transparent"}>
-                    <AccordionButton _expanded={{ borderColor: "white" }}>
-                      <Box as="span" flex={"1"} textAlign={"left"}>
+                
                         <ListItem fontWeight={"bold"} cursor={"pointer"}>
                           <ListIcon as={MdBook} boxSize={5} />
                           Courses
                         </ListItem>
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                    <AccordionPanel>TME 221</AccordionPanel>
-                    <AccordionPanel>TME 231</AccordionPanel>
-                    <AccordionPanel>MAT 224</AccordionPanel>
-                    <AccordionPanel>GNS 210</AccordionPanel>
-                  </AccordionItem>
-                </Accordion>
+                   
 
                 <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
                   <ListIcon as={MdSettings} boxSize={5} />
@@ -246,11 +230,7 @@ export default function StudentLayout() {
               gap={4}
               mr={{ base: "10px", md: "50px", lg: "130px", xl: "150px" }}
             >
-              <IconButton
-                variant={"ghost"}
-                colorScheme="white"
-                icon={<BellIcon />}
-              />
+              
               <Tooltip
                 hasArrow
                 label="Join attendance"
@@ -304,9 +284,14 @@ export default function StudentLayout() {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+            {!isLoadingAttendanceTab?<Button colorScheme="blue" mr={3} onClick={handleSubmit}>
               Submit
+            </Button>:
+            <Button colorScheme="blue" mr={3} isLoading>
+              loading
             </Button>
+            }
+            
             <Button variant="ghost" onClick={onClose}>
               Close
             </Button>

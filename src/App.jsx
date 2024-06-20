@@ -104,6 +104,7 @@ const router = createBrowserRouter(
       >
         <Route index element={<StudentHome />} />
         <Route path="new" element={<StudentMain />} />
+        <Route path="attendance/:attendanceId" element={<AttendanceForm/>}/>
       </Route>
       </Route>
       <Route path="institution" element={<InstitutionLayout />}>

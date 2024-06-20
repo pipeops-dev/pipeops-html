@@ -64,9 +64,11 @@ export default function LecturerHome() {
     refetchOnMountOrArgChange: true,
   });
 
-  const [toggleOpenAttendanceTab, { isSuccess }] =
+  console.log(attendanceTabs)
+
+  const [toggleOpenAttendanceTab, { isSuccess:isToggleSuccess }] =
     useToggleOpenAttendanceTabMutation();
-  const [addNewAttendance] = useAddNewAttendanceMutation();
+  const [addNewAttendance, {isLoading:isLoadingAttendance, isSuccess: isSuccessAttendance}] = useAddNewAttendanceMutation();
   useEffect(() => {
     if (!isLoading && (!attendanceTabs || attendanceTabs.ids.length === 0)) {
       navigate(`/lecturer/${lecturerId}/new`);
@@ -106,10 +108,19 @@ export default function LecturerHome() {
   };
 
   const handleClick = async (id) => {
+    console.log(id)
     try{
       await addNewAttendance({ attendanceTabId: id, lecturerId });
       console.log(lecturerId, id)
-      onClose()
+      onOpen()
+      
+    }catch(error){
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if(isSuccessAttendance){
       toast({
         position: "top-right",
         title: "Attendance Created",
@@ -117,11 +128,8 @@ export default function LecturerHome() {
         status: "success",
         duration: 7000,
         isClosable: true,
-      });
-    }catch(error){
-      console.log(error);
-    }
-  };
+      });}
+  }, [isSuccessAttendance]);
 
   const viewAttendance = (id) => {  
     navigate(`/lecturer/${lecturerId}/attendance/${id}`);
@@ -147,7 +155,7 @@ export default function LecturerHome() {
 
                 return (
                   <div key={index}>
-                    <Card variant={"elevated"} h={'full'}>
+                    <Card variant={"elevated"}>
                       <CardHeader>
                         <Flex>
                           <Heading fontSize={"2rem"} pl={"10px"} mt={"15px"}>
@@ -166,7 +174,7 @@ export default function LecturerHome() {
                             <MenuList ml={"-160px"} mt={"-10px"}>
                               <MenuItem
                                 icon={<MdOutlineAddCircleOutline />}
-                                onClick={onOpen}
+                                onClick={() => handleClick(id)}
                               >
                                 Create Attendance
                               </MenuItem>
@@ -222,23 +230,22 @@ export default function LecturerHome() {
                     <Modal isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay />
                   <ModalContent>
-                    <ModalHeader>Create Attendance</ModalHeader>
+                    <ModalHeader>Created an Attendance</ModalHeader>
                     <ModalCloseButton />
 
                     <ModalBody>
                       <Text fontWeight={"bold"}>
-                        An atttendance is about to be created. Please don't
+                        An atttendance has be created. Please don't
                         forget to open the attendance tab so your student would
                         have access to submit their attendance.
                       </Text>
                     </ModalBody>
 
                     <ModalFooter>
-                      <Button colorScheme="blue" mr={3} type="submit" onClick={() => handleClick(id)}>
-                        Create
-                      </Button>
+                     
+                      
                       <Button variant="ghost" onClick={onClose}>
-                        Cancel
+                        Ok, thanks
                       </Button>
                     </ModalFooter>
                   </ModalContent>
