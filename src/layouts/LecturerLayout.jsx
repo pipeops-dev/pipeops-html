@@ -51,10 +51,9 @@ import { AddIcon, SearchIcon } from "@chakra-ui/icons";
 import { useSendLogoutMutation } from "../features/lecturerAuth/lecturerAuthApiSlice";
 import { useGetLecturerByIdQuery } from "../features/lecturerAuth/lecturerAuthApiSlice";
 import { useAddNewAttendanceTabMutation } from "../features/attendanceTab/lecturerAttendanceTabApiSlice";
-import { useGetAttendanceTabQuery } from "../features/attendanceTab/lecturerAttendanceTabApiSlice";
 import { useNavigate, useParams } from "react-router-dom";
 export default function LecturerLayout() {
-  const [addNewAttendanceTab] = useAddNewAttendanceTabMutation();
+  const [addNewAttendanceTab, {isSuccess:isSuccessAttendanceTab, isLoading:isLoadingAttendanceTab}] = useAddNewAttendanceTabMutation();
   const navigate = useNavigate();
   const { lecturerId } = useParams();
   const [courseCode, setCourseCode] = useState("");
@@ -65,15 +64,7 @@ export default function LecturerLayout() {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
   });
-  const {
-    data: attendanceTabs,
-    isLoading,
-    isError,
-  } = useGetAttendanceTabQuery(lecturerId, {
-    pollingInterval: 15000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
-  });
+ 
   useEffect(() => {
     document.body.classList.add("bg-color");
   }, []);
@@ -81,29 +72,32 @@ export default function LecturerLayout() {
   const [display, setDisplay] = useState("none");
   const [sendLogout, { isSuccess, error }] = useSendLogoutMutation();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     if (courseCode && courseName) {
       try {
         await addNewAttendanceTab({ courseCode, courseName, lecturerId });
-        setCourseCode("");
-        setCourseName("");
-        localStorage.setItem("attendanceExist", "true");
-        navigate(`/lecturer/${lecturerId}`);
-        onCreateClose();
-        toast({
-          position: "top",
-          title: "Attendance tab created.",
-          description: "Do not forget to share the code with your students by clicking on the clipboard icon.",
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
       } catch (error) {
         console.log(error);
       }
     }
   };
 
+  useEffect(() => {
+    if (isSuccessAttendanceTab){ 
+      setCourseCode("");
+      setCourseName("");
+      navigate(`/lecturer/${lecturerId}`);
+      onCreateClose();
+      toast({
+        position: "top",
+        title: "Attendance tab created.",
+        description: "Do not forget to share the code with your students by clicking on the clipboard icon.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } ;
+  }, [isSuccessAttendanceTab, navigate]);
   useEffect(() => {
     if (isSuccess) navigate("/");
   }, [isSuccess, navigate]);
@@ -184,7 +178,8 @@ export default function LecturerLayout() {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button
+            {!isLoadingAttendanceTab ? 
+              <Button
               colorScheme="blue"
               mr={3}
               onClick={() => {
@@ -193,6 +188,13 @@ export default function LecturerLayout() {
             >
               Create
             </Button>
+            :
+            <Button colorScheme="blue" mr={3} isLoading>
+              loading 
+            </Button>
+            
+            }
+            
             <Button onClick={onCreateClose}>Close</Button>
           </ModalFooter>
         </ModalContent>

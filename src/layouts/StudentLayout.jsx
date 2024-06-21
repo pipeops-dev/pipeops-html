@@ -96,7 +96,7 @@ export default function StudentLayout() {
       navigate(`/student/${id}`)
       setAttendanceCode('')
     };
-  }, [navigate, isSuccess]);
+  }, [navigate, isSuccessAttendanceTab]);
   useEffect(() => {
     document.body.classList.add("bg-color");
   }, []);
