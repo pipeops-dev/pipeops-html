@@ -98,7 +98,7 @@ export default function LecturerLogin() {
         // Handle error case
         if (!err.status) {
           setErrMsg("No Server Response");
-        } else if (err.status === 401) {
+        } else if (err.status === 400) {
           setErrMsg("Unauthoriserd Access");
         } else if (err.status === 401) {
           setErrMsg("Invalid email or password");
@@ -107,6 +107,7 @@ export default function LecturerLogin() {
         }
 
         toast({
+          position: 'top',
           title: "Auuchh!",
           description: errMsg,
           status: "error",

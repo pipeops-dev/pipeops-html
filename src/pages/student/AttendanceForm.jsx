@@ -47,6 +47,7 @@ export default function AttendanceForm() {
   const [studentId, setStudentId] = useState(id)
   const navigate = useNavigate();
   const toast = useToast();
+  const [errMsg, setErrMsg] = useState('')
   const { isOpen: isPin, onOpen: onPin, onClose: closePin } = useDisclosure();
 
   const handleSubmit = async () => {
@@ -57,14 +58,14 @@ export default function AttendanceForm() {
     } catch (err) {
       if (!err.status) {
         setErrMsg("No Server Response");
-      } else if (err.status === 400) {
+      } else if (err.status === 404) {
         setErrMsg("INVALID PIN");
         toast({
           position: "top",
           title: "Auuchh!",
           description: errMsg,
           status: "warning",
-          duration: 9000,
+          duration: 5000,
           isClosable: true,
         });
       } else {
