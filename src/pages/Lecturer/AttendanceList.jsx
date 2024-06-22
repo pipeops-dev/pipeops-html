@@ -22,8 +22,9 @@ import { useEffect } from "react";
 import { useParams, useNavigate} from "react-router-dom";
 import { useGetLecturerAttendanceQuery } from "../../features/attendance/lecturerAttendanceApiSlice";
 export default function AttendanceList() {
-  const { lecturerId, attendanceTabId } = useParams();
+  const { lecturerId, id } = useParams();
   const navigate = useNavigate();
+  const attendanceTabId = id;
   const {
     data: attendances,
     isLoading,
@@ -37,6 +38,7 @@ export default function AttendanceList() {
     }
   );
 
+  console.log(attendanceTabId)
   const singleAttendance = (id) => {
     console.log(id);
     navigate(`/lecturer/${lecturerId}/single-attendance/${id}`);

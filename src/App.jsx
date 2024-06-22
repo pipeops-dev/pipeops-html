@@ -48,6 +48,7 @@ import Demo from "./pages/Demo";
 import AttendanceForm from "./pages/student/AttendanceForm";
 import AttendanceList from "./pages/Lecturer/AttendanceList";
 import AttendanceInfo from "./pages/Lecturer/AttendanceInfo";
+import CreateAttendance from "./pages/Lecturer/CreateAttendance";
 
 
 const router = createBrowserRouter(
@@ -89,7 +90,8 @@ const router = createBrowserRouter(
       >
         <Route index element={<LecturerHome />} />
         <Route path="new" element={<LecturerMain />} />
-        <Route path='attendance/:attendanceTabId' element={<AttendanceList/>}/>
+        <Route path='attendance/:id' element={<AttendanceList/>}/>
+        <Route path='create-attendance/:attendanceTabId' element={<CreateAttendance/>}/>
         <Route path="single-attendance/:id" element={<AttendanceInfo/>}/>
       </Route>
       </Route>

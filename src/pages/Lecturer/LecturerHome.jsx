@@ -108,28 +108,10 @@ export default function LecturerHome() {
   };
 
   const handleClick = async (id) => {
-    console.log(id)
-    try{
-      await addNewAttendance({ attendanceTabId: id, lecturerId });
-      console.log(lecturerId, id)
-      onOpen()
-      
-    }catch(error){
-      console.log(error);
-    }
+    navigate(`/lecturer/${lecturerId}/create-attendance/${id}`);
   };
 
-  useEffect(() => {
-    if(isSuccessAttendance){
-      toast({
-        position: "top-right",
-        title: "Attendance Created",
-        description: `The attendance has been created successfully.`,
-        status: "success",
-        duration: 7000,
-        isClosable: true,
-      });}
-  }, [isSuccessAttendance]);
+  
 
   const viewAttendance = (id) => {  
     navigate(`/lecturer/${lecturerId}/attendance/${id}`);
