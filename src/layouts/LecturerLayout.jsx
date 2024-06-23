@@ -219,24 +219,15 @@ export default function LecturerLayout() {
                     <ListIcon as={MdHome} boxSize={5} />
                     Home
                   </ListItem>
-                </Link>
-                
-                 
-                    
+                </Link>       
                           <ListItem fontWeight={"bold"} cursor={"pointer"}>
                             <ListIcon as={MdBook} boxSize={5} />
                             Course
                           </ListItem>
-                       
-        
-                
-                
                         <ListItem fontWeight={"bold"} cursor={"pointer"}>
                           <ListIcon as={MdAnalytics} boxSize={5} />
                           Insight
                         </ListItem>
-                      
-
                 <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
                   <ListIcon as={MdSettings} boxSize={5} />
                   Setting

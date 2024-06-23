@@ -37,6 +37,7 @@ import { color } from "framer-motion";
 import { useGetAttendanceTabQuery } from "../../features/attendanceTab/lecturerAttendanceTabApiSlice";
 import { useToggleOpenAttendanceTabMutation } from "../../features/attendanceTab/lecturerAttendanceTabApiSlice";
 import { useAddNewAttendanceMutation } from "../../features/attendance/lecturerAttendanceApiSlice";
+import { useDeleteAttendanceTabMutation } from "../../features/attendanceTab/lecturerAttendanceTabApiSlice";
 import {
   MdContentCopy,
   MdMoreVert,
@@ -46,6 +47,7 @@ import {
   MdLockOpen,
   MdOutlineAddCircleOutline,
   MdViewList,
+  MdDelete
 } from "react-icons/md";
 import copy from "copy-to-clipboard";
 
@@ -64,7 +66,7 @@ export default function LecturerHome() {
     refetchOnMountOrArgChange: true,
   });
 
-  console.log(attendanceTabs)
+  const [deleteAttendanceTab, {isSuccess:isDeleteSuccess}] = useDeleteAttendanceTabMutation();
 
   const [toggleOpenAttendanceTab, { isSuccess:isToggleSuccess }] =
     useToggleOpenAttendanceTabMutation();
@@ -111,7 +113,14 @@ export default function LecturerHome() {
     navigate(`/lecturer/${lecturerId}/create-attendance/${id}`);
   };
 
-  
+  const handleDeleteAttendanceTab = async (id) => {
+    try {
+      await deleteAttendanceTab({id});
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   const viewAttendance = (id) => {  
     navigate(`/lecturer/${lecturerId}/attendance/${id}`);
@@ -165,6 +174,12 @@ export default function LecturerHome() {
                               </MenuItem>
                               <MenuItem icon={<MdCalculate />}>
                                 Calculate Attendance
+                              </MenuItem>
+                              <MenuItem
+                                icon={<MdDelete />}
+                                onClick={() => handleDeleteAttendanceTab(id)}
+                              >
+                                Delete Attendance
                               </MenuItem>
                             </MenuList>
                           </Menu>

@@ -78,7 +78,7 @@ export default function AttendanceList() {
                           </Heading>
                         </Flex>
                       </CardHeader>
-                      <CardBody fontSize={{base:'1.3rem',md:'1.5rem',lg:"1.6rem"}}>
+                      <CardBody fontSize={{base:'1rem',md:'1.1rem',lg:"1.3rem"}}>
                         <Flex>
                         Created: {new Date(attendance.createdAt).toLocaleString(
                           "en-US",

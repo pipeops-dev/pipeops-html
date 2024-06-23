@@ -13,6 +13,9 @@ import {
   Button,
   Text,
   Heading,
+  Divider,
+  Flex,
+  Spacer,
 } from "@chakra-ui/react";
 import {MdGraphicEq} from 'react-icons/md'
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,6 +23,7 @@ import { useAddNewAttendanceMutation } from "../../features/attendance/lecturerA
 import { useEffect, useState } from "react";
 export default function createAttendance() {
   const { id, lecturerId } = useParams();
+  const navigate = useNavigate();
   const toast = useToast();
   const [
     addNewAttendance,
@@ -51,8 +55,9 @@ export default function createAttendance() {
         duration: 7000,
         isClosable: true,
       });
+      navigate(`/lecturer/${lecturerId}`)
     }
-  }, [isSuccessAttendance]);
+  }, [isSuccessAttendance, navigate]);
   const [sliderValue, setSliderValue] = useState(0);
    console.log(sliderValue)
   const labelStyles = {
@@ -63,12 +68,16 @@ export default function createAttendance() {
 
   return (
     <>
-      <Card>
+      <Card m={3}>
         <CardHeader>
-          <Heading>Create an attendance</Heading>
+          <Heading>Creating an attendance</Heading>
         </CardHeader>
         <CardBody>
-          <Text>attendance </Text>
+          <Text pb={2}>An attendance is about to be created. Do remember to open the attendance tab so your student can submit 
+            their attendance and close it afterwards
+             </Text>
+             <Divider />
+             <Text pt={4}>Please specify the lecture hall size you are currently using, below:</Text>
           <Box p={4} pt={6}>
             <Slider
               aria-label="slider-ex-6"
@@ -95,8 +104,9 @@ export default function createAttendance() {
           </Box>
         </CardBody>
         <CardFooter>
+          <Spacer />
           {!isLoadingAttendance ? (
-            <Button onClick={handleSubmit}>Create</Button>
+            <Button onClick={handleSubmit} colorScheme="red">Create</Button>
           ) : (
             <Button isLoading>Loading</Button>
           )}

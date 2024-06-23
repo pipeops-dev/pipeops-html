@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials } from '../../features/lecturerAuth/lecturerAuthSlice'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://sams-backend-1.onrender.com',
+    baseUrl: 'http://localhost:3500',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = getState().lecturerAuth.token
