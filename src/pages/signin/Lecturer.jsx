@@ -21,6 +21,7 @@ import {
   IconButton,
   Alert,
   AlertIcon,
+  Select,
 } from "@chakra-ui/react";
 import institutions from "nigerian-institutions";
 import { FaUser } from "react-icons/fa";
@@ -56,7 +57,8 @@ export default function Lecturer() {
   const [suggestions, setSuggestions] = useState([]);
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  
+  const [title, setTitle] = useState('');
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const institutionRegex = /^[A-Za-z\s,/&-]+$/;
@@ -82,6 +84,7 @@ export default function Lecturer() {
     setValidInstitution(institutionRegex.test(institution));
   }, [institution]);
 
+const handleTitleChange = (e) => setTitle(e.target.value);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitted(true);
@@ -111,6 +114,7 @@ export default function Lecturer() {
             password,
             institution,
             pic: randomImageName,
+            title
           };
           
       
@@ -124,6 +128,7 @@ export default function Lecturer() {
           setLastname(""),
           setPassword(""),
           setInstitution("");
+          setTitle('');
           navigate(`/code/${id}`);
           //navigate(localStorage.getItem('attendanceExist') === 'true' ? `/code/${id}/home` : `/code/${id}`);
 
@@ -367,6 +372,17 @@ export default function Lecturer() {
                 <FormErrorMessage>{errors.password}</FormErrorMessage>
               )}
             </FormControl>
+            <FormControl mb={"2rem"} w={"90%"} ml={"auto"} mr={"auto"}>
+        <Select placeholder="Select title" value={title} onChange={handleTitleChange}
+        border={'1px solid grey'}
+        >
+          <option value="mr.">Mr.</option>
+          <option value="mrs.">Mrs.</option>
+          <option value="prof.">Prof.</option>
+          <option value="miss">Miss</option>
+          <option value="dr.">Dr.</option>
+        </Select>
+      </FormControl>
             <FormControl
               mb={"2rem"}
               w={"90%"}

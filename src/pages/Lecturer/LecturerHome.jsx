@@ -114,10 +114,23 @@ export default function LecturerHome() {
   };
 
   const handleDeleteAttendanceTab = async (id) => {
-    try {
-      await deleteAttendanceTab({id});
-    } catch (error) {
-      console.log(error);
+    // Request confirmation before proceeding with deletion
+    const isConfirmed = window.confirm("Are you sure you want to delete this attendance tab?");
+    if (isConfirmed) {
+      try {
+        await deleteAttendanceTab({id});
+        // Optionally, add code here to update the UI or state after successful deletion
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  const handleCalculateAttendance = async (id) => {
+    // Request confirmation before proceeding with deletion
+    const isConfirmed = window.confirm("Are you sure you want to calculate attendance in this attendance tab?");
+    if (isConfirmed) {
+      navigate(`/lecturer/${lecturerId}/calculate-attendance/${id}`);
     }
   }
 
@@ -172,7 +185,7 @@ export default function LecturerHome() {
                               <MenuItem icon={<MdViewList />} onClick={() => viewAttendance(id)} >
                                 View Attendance
                               </MenuItem>
-                              <MenuItem icon={<MdCalculate />}>
+                              <MenuItem icon={<MdCalculate />} onClick={() => handleCalculateAttendance(id)}>
                                 Calculate Attendance
                               </MenuItem>
                               <MenuItem

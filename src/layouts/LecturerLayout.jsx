@@ -272,28 +272,28 @@ export default function LecturerLayout() {
             <Flex justify={"center"}>
               <List spacing={10} mt={"70px"} cursor={"pointer"}>
                 <Link to={"/"}>
-                  <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
+                  <ListItem fontWeight={"bold"} cursor={"pointer"} pl={2} color={location.pathname === `/lecturer/${lecturerId}` ? "red" : "initial"}>
                     <ListIcon as={MdHome} boxSize={5} />
                     Home
                   </ListItem>
                 </Link>
               
-                        <ListItem fontWeight={"bold"} cursor={"pointer"}>
-                          <ListIcon as={MdBook} boxSize={5} />
+                  <ListItem fontWeight={"bold"} cursor={"pointer"} pl={2}>
+                      <ListIcon as={MdBook} boxSize={5} />
                           Courses
                         </ListItem>
                
-                        <ListItem fontWeight={"bold"} cursor={"pointer"}>
+                        <ListItem fontWeight={"bold"} cursor={"pointer"} pl={2}>
                           <ListIcon as={MdAnalytics} boxSize={5} />
                           Insight
                         </ListItem>
                  
 
-                <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
+                <ListItem fontWeight={"bold"} cursor={"pointer"} pl={2}>
                   <ListIcon as={MdSettings} boxSize={5} />
                   Setting
                 </ListItem>
-                <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
+                <ListItem fontWeight={"bold"} cursor={"pointer"} pl={2}>
                   <ListIcon as={MdContactSupport} boxSize={5} />
                   Support and Help
                 </ListItem>

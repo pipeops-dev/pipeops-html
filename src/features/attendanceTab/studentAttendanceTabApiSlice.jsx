@@ -33,6 +33,15 @@ export const studentAttendanceTabApiSlice = studentApiSlice.injectEndpoints({
                 } else return [{ type: 'AttendanceTab', id: 'LIST' }]
             }
         }),
+
+        calculateAttendanceTab: builder.mutation({
+            query: ({id , attendanceCode}) => ({
+              url: '/attendanceTab/student',
+              method: 'PATCH',
+              body: { id, attendanceCode }
+            }),
+            invalidatesTags: [{ type: 'AttendanceTab', id: 'LIST' }],
+          }),
        
         updateAttendanceTab: builder.mutation({
             query: ({id , attendanceCode}) => ({

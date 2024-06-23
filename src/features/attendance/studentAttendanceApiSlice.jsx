@@ -61,6 +61,16 @@ export const studentAttendanceApiSlice = studentApiSlice.injectEndpoints({
               { type: 'Attendance', id: arg.id }
           ]
       }),
+      calculateAttendance: builder.mutation({
+        query: ({attendanceTabId, lecturerId}) => ({
+            url: '/attendance/student',
+            method: 'POST',
+            body: {attendanceTabId, lecturerId}
+        }),
+        invalidatesTags: [
+            { type: 'Attendance', id: "LIST" }
+        ]
+    }),
   }),
 })
 
@@ -69,6 +79,7 @@ export const {
   useAddNewAttendanceMutation,
   useUpdateAttendanceMutation,
   useDeleteAttendanceMutation,
+  useCalculateAttendanceMutation
 } = studentAttendanceApiSlice
 
 // returns the query result object

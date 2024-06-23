@@ -5,7 +5,7 @@ import {
   FormLabel,
   Input,
   VStack,
-  Flex, // Import Flex from Chakra UI
+  Flex,
   Box,
   Center,
   Spinner,
@@ -41,7 +41,6 @@ export default function AttendanceList() {
     }
   );
 
-  console.log(attendanceTabId)
   const singleAttendance = (id) => {
     console.log(id);
     navigate(`/lecturer/${lecturerId}/single-attendance/${id}`);
