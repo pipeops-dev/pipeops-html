@@ -36,7 +36,7 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation} from "react-router-dom";
 import {
   MdAnalytics,
   MdBook,
@@ -55,6 +55,7 @@ import { useNavigate, useParams } from "react-router-dom";
 export default function LecturerLayout() {
   const [addNewAttendanceTab, {isSuccess:isSuccessAttendanceTab, isLoading:isLoadingAttendanceTab}] = useAddNewAttendanceTabMutation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { lecturerId } = useParams();
   const [courseCode, setCourseCode] = useState("");
   const [courseName, setCourseName] = useState("");
@@ -214,25 +215,25 @@ export default function LecturerLayout() {
             </Flex>
             <Flex justify={"center"}>
               <List spacing={10} mt={"70px"} cursor={"pointer"}>
-                <Link to={"home"}>
-                  <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
+                <Link to={`/lecturer/${lecturerId}`}>
+                  <ListItem fontWeight={"bold"} cursor={"pointer"} pl={2} color={location.pathname === `/lecturer/${lecturerId}` ? "red" : "initial"}>
                     <ListIcon as={MdHome} boxSize={5} />
                     Home
                   </ListItem>
                 </Link>       
-                          <ListItem fontWeight={"bold"} cursor={"pointer"}>
-                            <ListIcon as={MdBook} boxSize={5} />
-                            Course
-                          </ListItem>
-                        <ListItem fontWeight={"bold"} cursor={"pointer"}>
-                          <ListIcon as={MdAnalytics} boxSize={5} />
-                          Insight
-                        </ListItem>
-                <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
+                  <ListItem fontWeight={"bold"} cursor={"pointer"} pl={2}>
+                      <ListIcon as={MdBook} boxSize={5} />
+                          Course
+                  </ListItem>
+                  <ListItem fontWeight={"bold"} cursor={"pointer"}  pl={2}>
+                    <ListIcon as={MdAnalytics} boxSize={5} />
+                        Insight
+                  </ListItem>
+                <ListItem fontWeight={"bold"} cursor={"pointer"}  pl={2}>
                   <ListIcon as={MdSettings} boxSize={5} />
                   Setting
                 </ListItem>
-                <ListItem fontWeight={"bold"} cursor={"pointer"} pl={"20px"}>
+                <ListItem fontWeight={"bold"} cursor={"pointer"}  pl={2}>
                   <ListIcon as={MdContactSupport} boxSize={5} />
                   Support and Help
                 </ListItem>

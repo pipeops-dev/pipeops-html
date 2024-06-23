@@ -246,7 +246,7 @@ export default function LecturerHome() {
                       </Button>
                     </ModalFooter>
                   </ModalContent>
-                </Modal>;
+                </Modal>
                   </div>
                 );
                 
