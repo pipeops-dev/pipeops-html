@@ -17,7 +17,10 @@ import {
   CardFooter,
   HStack,
   Spacer,
+  Divider,
+  Icon,
 } from "@chakra-ui/react";
+import { MdDelete, MdVisibility } from "react-icons/md";
 import { useEffect } from "react";
 import { useParams, useNavigate} from "react-router-dom";
 import { useGetLecturerAttendanceQuery } from "../../features/attendance/lecturerAttendanceApiSlice";
@@ -70,7 +73,7 @@ export default function AttendanceList() {
 
                 return (
                   <div key={index}>
-                    <Card variant={"elevated"} onClick={() => singleAttendance(id)}>
+                    <Card variant={"elevated"} >
                       <CardHeader>
                         <Flex>
                           <Heading fontSize={{base:'1.6rem',md:'1.8rem',lg:"2rem"}} pl={"10px"} mt={"15px"}>
@@ -92,8 +95,12 @@ export default function AttendanceList() {
                         {attendance.present} present
                         </Flex>
                       </CardBody>
-
-                      <CardFooter></CardFooter>
+                        <Divider  />
+                      <CardFooter>
+                        <Spacer />
+                        <Icon as={MdVisibility} color={'grey'} mr={5} onClick={() => singleAttendance(id)}/>
+                        <Icon as={MdDelete} color={'red'} />
+                      </CardFooter>
                     </Card>
                   </div>
                 );
