@@ -1,4 +1,4 @@
-# PipeOps-HTML-Starterkit 
+# PipeOp HTML Starterkit 
 
 ### Get Started
 Firstly, you need to clone the project. 
