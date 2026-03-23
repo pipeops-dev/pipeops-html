@@ -8,5 +8,4 @@ Firstly, you need to clone the project.
 $ git clone <project>
 $ cd <project>
 ```
-
 Open index.html 
